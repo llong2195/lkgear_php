@@ -22,10 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         [
             "userID" => $_POST['userID'] ? $_POST['userID'] : '',
             "accID" => $_POST['accID'] ? $_POST['accID'] : '',
-            "date" => $_POST['date'] ? $_POST['date'] : '',
-            "qty" => $_POST['qty'] ? $_POST['qty'] : '',
-            "total" => $_POST['total'] ? $_POST['total'] : '',
-            "active" => $_POST['active'] ? $_POST['active'] : '',
+            "status" => $_POST['status'] ? $_POST['status'] : '',
         ];
 
     $update = $db->update('bill', $data, array('id' => $id));

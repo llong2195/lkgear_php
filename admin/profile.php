@@ -6,6 +6,59 @@
     <title>Admin - profile</title>
 
 </head>
+<?php
+if (isset($_SESSION['login'])) {
+    $session = $_SESSION['login'];
+    $arr = explode("-", $session);
+    $sql = "select * from account where id = $arr[0]";
+    $account = $db->fetchOne($sql);
+}
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // upload file
+    $check = false;
+    if (isset($_FILES['file'])) {
+        $errors = array();
+        $file_name = $_FILES['file']['name'];
+        $file_size = $_FILES['file']['size'];
+        $file_tmp = $_FILES['file']['tmp_name'];
+        $file_type = $_FILES['file']['type'];
+        $file_ext = strtolower(end(explode('.', $_FILES['file']['name'])));
+        $expensions = array("jpeg", "jpg", "png");
+
+        if (in_array($file_ext, $expensions) === false) {
+            $errors[] = "Không chấp nhận định dạng ảnh có đuôi này, mời bạn chọn JPEG hoặc PNG.";
+        }
+
+        if (empty($errors) == true) {
+            move_uploaded_file($file_tmp, '../../public/img/account/' . $file_name);
+            $check = true;
+        }
+    }
+
+    //
+
+
+    $data =
+        [
+            // "userName" => $_POST['userName'] ? $_POST['userName'] : '',
+            // "password" => md5($_POST['password']),
+            "displayName" => $_POST['displayName'] ? $_POST['displayName'] : '',
+            "email" => $_POST['email'] ? $_POST['email'] : '',
+            "addr" => $_POST['addr'] ? $_POST['addr'] : '',
+            "sdt" => $_POST['sdt'] ? $_POST['sdt'] : '',
+            "role" => $_POST['role'] ? $_POST['role'] : '',
+        ];
+    if($check){
+        $data["avatarImg"] = "public/img/account/" . $file_name;
+    }
+    $update = $db->update('account', $data, array('id' => $arr[0]));
+    if ($update > 0) {
+        $_SESSION['error'] = "sửa thành công";
+        header('Location: ./index.php');
+    } else
+        $_SESSION['error'] = "không thành công";
+}
+?>
 
 <body>
     <!--*******************
@@ -31,7 +84,7 @@
         <!--**********************************
             Nav header start
         ***********************************-->
-        <?php require_once(__DIR__ . '/layout/nav_header.php') ?>
+        <?php require_once(__DIR__ . './layout/nav_header.php') ?>
         <!--**********************************
             Header end ti-comment-alt
         ***********************************-->
@@ -39,7 +92,7 @@
         <!--**********************************
             Sidebar start
         ***********************************-->
-        <?php require_once(__DIR__ . '/layout/side_bar.php') ?>
+        <?php require_once(__DIR__ . './layout/side_bar.php') ?>
         <!--**********************************
             Sidebar end
         ***********************************-->
@@ -53,56 +106,64 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Vertical Form</h4>
+                            <h4 class="card-title">Thêm Account</h4>
                             <div class="basic-form">
-                                <form>
+                                <form method="POST" action="" enctype="multipart/form-data">
+                                    <!-- <div class="form-group">
+                                        <label>Tài khoản</label>
+                                        <input type="text" required name="userName" class="form-control" placeholder="userName" value="<?php echo $account['userName'] ?>">
+                                    </div> -->
+                                    <!-- <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label>Mật Khẩu</label>
+                                            <input type="password" required name="password" class="form-control">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label>Nhập lại mật khẩu</label>
+                                            <input type="password" required class="form-control">
+                                        </div>
+                                    </div> -->
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label>Tên hiển thị</label>
+                                            <input type="text" name="displayName" required class="form-control" placeholder="userName" value="<?php echo $account['displayName'] ?>">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label>số điện thoại</label>
+                                            <input type="number" name="sdt" required class="form-control" value="<?php echo $account['sdt'] ?>">
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Địa Chỉ</label>
+                                        <input type="text" name="addr" required class="form-control" placeholder="1234 Main St" value="<?php echo $account['addr'] ?>">
+                                    </div>
+
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label>Email</label>
-                                            <input type="email" class="form-control" placeholder="Email">
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label>Password</label>
-                                            <input type="password" class="form-control" placeholder="Password">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Address</label>
-                                        <input type="text" class="form-control" placeholder="1234 Main St">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Address 2</label>
-                                        <input type="text" class="form-control" placeholder="Apartment, studio, or floor">
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label>City</label>
-                                            <input type="text" class="form-control">
+                                            <input type="email" name="email" required class="form-control" value="<?php echo $account['email'] ?>">
                                         </div>
                                         <div class="form-group col-md-4">
-                                            <label>State</label>
-                                            <select id="inputState" class="form-control">
-                                                <option selected="selected">Choose...</option>
-                                                <option>Option 1</option>
-                                                <option>Option 2</option>
-                                                <option>Option 3</option>
+                                            <label>Role</label>
+                                            <select id="inputState" name="role" required class="form-control">
+                                                <?php if ($account['role'] == 1) :  ?>
+                                                    <option selected value="1">Admin</option>
+                                                    <option value="0">Nhân Viên</option>
+                                                <?php else : ?>
+                                                    <option value="1">Admin</option>
+                                                    <option selected value="0">Nhân Viên</option>
+                                                <?php endif; ?>
                                             </select>
                                         </div>
-                                        <div class="form-group col-md-2">
-                                            <label>Zip</label>
-                                            <input type="text" class="form-control">
-                                        </div>
+
                                     </div>
                                     <div class="form-group">
-                                        <input type="file" class="form-control-file">
+                                        <img src="<?php echo $base_url . $account['avatarImg'] ?>" width="100" height="100" alt="">
+                                        <input type="file" name="file" class="form-control-file">
                                     </div>
-                                    <div class="form-group">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox">
-                                            <label class="form-check-label">Check me out</label>
-                                        </div>
-                                    </div>
-                                    <button type="submit" class="btn btn-dark">Sign in</button>
+
+                                    <button type="submit" class="btn btn-dark">Sửa Tài Khoản</button>
                                 </form>
                             </div>
                         </div>
@@ -135,7 +196,7 @@
     <!--**********************************
         Scripts
     ***********************************-->
-    <?php require_once(__DIR__ . '/layout/script.php') ?>
+    <?php require_once(__DIR__ . './layout/script.php') ?>
 
 </body>
 
