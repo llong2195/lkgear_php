@@ -19,6 +19,12 @@
     <?php
     $sql = "SELECT * FROM category";
     $category = $db->fetchAll($sql);
+    $sql1 = "SELECT * FROM `fe` WHERE slug like '%slider%' and active = 1";
+    $slider = $db->fetchOne($sql1);
+    $sql2 = "SELECT * FROM `fe` WHERE slug like '%ad%' and active = 1 limit 2";
+    $ad = $db->fetchAll($sql2);
+    $sql3 = "SELECT `product`.*, `category`.`slug` AS 'categorySlug', `prdchill`.`priceSale` FROM `product`, `category`, `prdchill` WHERE `product`.`categoryID` = `category`.`id` and `prdchill`.prdID = `product`.`id`;";
+    $product = $db->fetchAll($sql3);
     ?>
 
     <section class="hero">
@@ -28,7 +34,7 @@
                     <div class="hero__categories">
                         <div class="hero__categories__all">
                             <i class="fa fa-bars"></i>
-                            <span>All departments</span>
+                            <span>All</span>
                         </div>
                         <ul>
                             <?php foreach ($category as $item) : ?>
@@ -45,7 +51,7 @@
                         <div class="hero__search__form">
                             <form action="#">
                                 <div class="hero__search__categories">
-                                    All Categories
+                                    Danh Mục
                                     <span class="arrow_carrot-down"></span>
                                 </div>
                                 <input type="text" placeholder="What do yo u need?">
@@ -62,11 +68,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="hero__item set-bg" data-setbg="<?php echo $base_url ?>public/site/img/slideshow_11.jpg">
+                    <div class="hero__item set-bg" data-setbg="<?php echo $base_url . $slider['img'] ?>">
                         <div class="hero__text">
                             <!-- <span>GEAR GAMING</span>
                             <h2>GEAR <br />100% Quality</h2> -->
-                            <a href="#" class="primary-btn" style="margin-top:360px;margin-left:600px;">SHOP NOW</a>
+                            <a href="<?php echo $base_url . $slider['link'] ?>" class="primary-btn" style="margin-top:360px;margin-left:600px;">SHOP NOW</a>
                         </div>
                     </div>
                 </div>
@@ -83,8 +89,8 @@
                 <div class="categories__slider owl-carousel">
                     <?php foreach ($category as $item) : ?>
                         <div class="col-lg-3">
-                            <div class="categories__item set-bg" data-setbg="<?php echo $base_url.$item['avatarImg'] ?>">
-                                <h5><a href="<?php echo $base_url.'category.php?slug='.$item['slug'] ?>"><?php echo $item['name'] ?></a></h5>
+                            <div class="categories__item set-bg" data-setbg="<?php echo $base_url . $item['avatarImg'] ?>">
+                                <h5><a href="<?php echo $base_url . 'category.php?slug=' . $item['slug'] ?>"><?php echo $item['name'] ?></a></h5>
                             </div>
                         </div>
                     <?php endforeach ?>
@@ -102,140 +108,37 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section-title">
-                        <h2>Featured Product</h2>
+                        <h2>Sản Phẩm</h2>
                     </div>
                     <div class="featured__controls">
                         <ul>
                             <li class="active" data-filter="*">All</li>
-                            <li data-filter=".oranges">Oranges</li>
-                            <li data-filter=".fresh-meat">Fresh Meat</li>
-                            <li data-filter=".vegetables">Vegetables</li>
-                            <li data-filter=".fastfood">Fastfood</li>
+                            <?php foreach ($category as $item) : ?>
+                                <li data-filter=".<?php echo $item['slug'] ?>"><?php echo $item['name'] ?></li>
+
+                            <?php endforeach ?>
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="row featured__filter">
-                <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg="<?php echo $base_url ?>public/site/img/product/header-product1.jpg">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 mix vegetables fastfood">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg="<?php echo $base_url ?>public/site/img/product/header-product1.jpg">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
+                <?php foreach ($product as $index => $item) : ?>
+                    <div class="col-lg-3 col-md-4 col-sm-6 mix <?php echo $item['categorySlug'] ?>">
+                        <div class="featured__item">
+                            <div class="featured__item__pic set-bg" data-setbg="<?php echo $base_url . $item['avatarImg1'] ?>">
+                                <ul class="featured__item__pic__hover">
+                                    <li><a href="./product.php?slug=<?php echo $item['slug'] ?>"><i class="fa fa-heart"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="featured__item__text">
+                                <h6><a href="./product.php?slug=<?php echo $item['slug'] ?>"><?php echo $item['name'] ?></a></h6>
+                                <h5><?php echo number_format($item['priceSale']) ?> VND</h5>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 mix vegetables fresh-meat">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg="<?php echo $base_url ?>public/site/img/product/header-product1.jpg">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 mix fastfood oranges">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg="<?php echo $base_url ?>public/site/img/product/header-product1.jpg">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg="<?php echo $base_url ?>public/site/img/product/header-product1.jpg">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fastfood">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg="<?php echo $base_url ?>public/site/img/product/header-product1.jpg">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg="<?php echo $base_url ?>public/site/img/product/header-product1.jpg">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 mix fastfood vegetables">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg="<?php echo $base_url ?>public/site/img/product/header-product1.jpg">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
+                    <?php if ($index >= 30) break; ?>
+                <?php endforeach ?>
             </div>
         </div>
     </section>
@@ -245,16 +148,14 @@
     <div class="banner">
         <div class="container">
             <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="banner__pic">
-                        <img src="<?php echo $base_url ?>public/site/img/slideshow_11.jpg" alt="">
+                <?php foreach ($ad as $item) : ?>
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="banner__pic">
+                            <img width="550" height="300" src="<?php echo $base_url . $item['img'] ?>" alt="">
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="banner__pic">
-                        <img src="<?php echo $base_url ?>public/site/img/slideshow_5.jpg" alt="">
-                    </div>
-                </div>
+                <?php endforeach ?>
+
             </div>
         </div>
     </div>
@@ -266,201 +167,120 @@
             <div class="row">
                 <div class="col-lg-4 col-md-6">
                     <div class="latest-product__text">
-                        <h4>Latest Products</h4>
+                        <h4>Laptop</h4>
                         <div class="latest-product__slider owl-carousel">
-                            <div class="latest-prdouct__slider__item">
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="<?php echo $base_url ?>public/site/img/product/header-product1.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="<?php echo $base_url ?>public/site/img/product/header-product1.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="<?php echo $base_url ?>public/site/img/product/header-product1.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="latest-prdouct__slider__item">
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="<?php echo $base_url ?>public/site/img/product/header-product1.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="<?php echo $base_url ?>public/site/img/product/header-product1.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="<?php echo $base_url ?>public/site/img/product/header-product1.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="latest-product__text">
-                        <h4>Top Rated Products</h4>
-                        <div class="latest-product__slider owl-carousel">
-                            <div class="latest-prdouct__slider__item">
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="<?php echo $base_url ?>public/site/img/product/header-product1.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="<?php echo $base_url ?>public/site/img/product/header-product1.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="<?php echo $base_url ?>public/site/img/product/header-product1.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="latest-prdouct__slider__item">
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="<?php echo $base_url ?>public/site/img/product/header-product1.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="<?php echo $base_url ?>public/site/img/product/header-product1.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="<?php echo $base_url ?>public/site/img/product/header-product1.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="latest-product__text">
-                        <h4>Review Products</h4>
-                        <div class="latest-product__slider owl-carousel">
-                            <div class="latest-prdouct__slider__item">
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="<?php echo $base_url ?>public/site/img/product/header-product1.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="<?php echo $base_url ?>public/site/img/product/header-product1.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="<?php echo $base_url ?>public/site/img/product/header-product1.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="latest-prdouct__slider__item">
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="<?php echo $base_url ?>public/site/img/product/header-product1.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="<?php echo $base_url ?>public/site/img/product/header-product1.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="<?php echo $base_url ?>public/site/img/product/header-product1.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
 
-                            </div>
+                            <?php $count_item = 0; ?>
+                            <?php foreach ($product as $index => $item) : ?>
+                                <?php if ($count_item == 0) : ?>
+                                    <div class="latest-prdouct__slider__item">
+                                    <?php endif ?>
+                                    <?php if ($item['categorySlug'] == 'laptop') : ?>
+                                        <a href="./product.php?slug=<?php echo $item['slug'] ?>" class="latest-product__item">
+                                            <div class="latest-product__item__pic">
+                                                <img src="<?php echo $base_url . $item['avatarImg1'] ?>" alt="">
+                                            </div>
+                                            <div class="latest-product__item__text">
+                                                <h6><?php echo $item['name'] ?></h6>
+                                                <span><?php echo number_format($item['priceSale']) ?> VND</span>
+                                            </div>
+                                        </a>
+                                        <?php $count_item++; ?>
+                                        <?php
+
+                                        if ($count_item == 3) {
+                                            $count_item = 0;
+                                            print('</div>');
+                                        }
+                                        ?>
+                                    <?php endif ?>
+                                <?php endforeach ?>
+
+                                    </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="latest-product__text">
+                    <h4>Sản Phẩm Mới</h4>
+                    <div class="latest-product__slider owl-carousel">
+
+                        <?php $count_item = 0;
+                        $count = 0; ?>
+                        <?php foreach ($product as $index => $item) : ?>
+                            <?php if ($count_item == 0) : ?>
+                                <div class="latest-prdouct__slider__item">
+                                <?php endif ?>
+
+                                <a href="./product.php?slug=<?php echo $item['slug'] ?>" class="latest-product__item">
+                                    <div class="latest-product__item__pic">
+                                        <img src="<?php echo $base_url . $item['avatarImg1'] ?>" alt="">
+                                    </div>
+                                    <div class="latest-product__item__text">
+                                        <h6><?php echo $item['name'] ?></h6>
+                                        <span><?php echo number_format($item['priceSale']) ?> VND</span>
+                                    </div>
+                                </a>
+
+                                <?php $count_item++;
+                                $count++; ?>
+                                <?php
+
+                                if ($count_item == 3) {
+                                    $count_item = 0;
+                                    print('</div>');
+                                }
+                                if ($count == 9) break;
+                                ?>
+                            <?php endforeach ?>
+
+                                </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="latest-product__text">
+                    <h4>Sản Phẩm Nổi Bật</h4>
+                    <div class="latest-product__slider owl-carousel">
+
+                        <?php $count_item = 0;
+                        $count = 0; ?>
+                        <?php foreach ($product as $index => $item) : ?>
+                            <?php if ($count_item == 0) : ?>
+                                <div class="latest-prdouct__slider__item">
+                                <?php endif ?>
+
+                                <a href="./product.php?slug=<?php echo $item['slug'] ?>" class="latest-product__item">
+                                    <div class="latest-product__item__pic">
+                                        <img src="<?php echo $base_url . $item['avatarImg1'] ?>" alt="">
+                                    </div>
+                                    <div class="latest-product__item__text">
+                                        <h6><?php echo $item['name'] ?></h6>
+                                        <span><?php echo number_format($item['priceSale']) ?> VND</span>
+                                    </div>
+                                </a>
+
+                                <?php $count_item++;
+                                $count++; ?>
+                                <?php
+
+                                if ($count_item == 3) {
+                                    $count_item = 0;
+                                    print('</div>');
+                                }
+                                if ($count == 9) break;
+                                ?>
+                            <?php endforeach ?>
+
+                                </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
         </div>
     </section>
     <!-- Latest Product Section End -->

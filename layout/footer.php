@@ -29,10 +29,10 @@
             <div class="col-lg-4 col-md-12">
                 <div class="footer__widget">
                     <h6>Nhập email để cập nhập sản phẩm sớm nhất</h6>
-                    <p>Get E-mail updates about our latest shop and special offers.</p>
+                    <p>Nhập email để cập nhập sản phẩm sớm nhất.</p>
                     <form action="#">
                         <input type="text" placeholder="Enter your mail">
-                        <button type="submit" class="site-btn">Subscribe</button>
+                        <button type="submit" class="site-btn">Gửi</button>
                     </form>
                     <div class="footer__widget__social">
                         <a href="#"><i class="fa fa-facebook"></i></a>
@@ -51,11 +51,11 @@
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                             Copyright &copy;<script>
                                 document.write(new Date().getFullYear());
-                            </script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                            </script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://www.facebook.com/llong2195/" target="_blank">LK</a>
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                         </p>
                     </div>
-                    <div class="footer__copyright__payment"><img src="<?php echo $base_url ?>public/site/img/payment-item.png" alt=""></div>
+                    
                 </div>
             </div>
         </div>
