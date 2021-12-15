@@ -15,7 +15,7 @@ $category = $db->fetchAll($sql);
                     <ul style="display: none;">
                         <?php foreach ($category as $item) : ?>
                             <li style="list-style-position:inside; white-space: nowrap;  overflow: hidden; text-overflow: ellipsis; ">
-                                <a href="./category.php?slug=<?php echo $item['slug']?>"><?php echo $item['name'] . ' - ' . $item['description'] ?></a>
+                                <a href="./category.php?category=<?php echo $item['slug']?>"><?php echo $item['name'] . ' - ' . $item['description'] ?></a>
                             </li>
                         <?php endforeach ?>
 
@@ -25,12 +25,12 @@ $category = $db->fetchAll($sql);
             <div class="col-lg-9">
                 <div class="hero__search">
                     <div class="hero__search__form">
-                        <form action="#">
+                        <form action="./search.php" method="POST">
                             <div class="hero__search__categories">
                                 All Categories
                                 <span class="arrow_carrot-down"></span>
                             </div>
-                            <input type="text" placeholder="What do yo u need?">
+                            <input type="text" name="name" placeholder="Tìm Tên Sản Phẩm">
                             <button type="submit" class="site-btn">SEARCH</button>
                         </form>
                     </div>

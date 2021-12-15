@@ -20,7 +20,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $data =
         [
-            "userID" => $_POST['userID'] ? $_POST['userID'] : '',
+            "name" => $_POST['name'] ? $_POST['name'] : '',
+            "email" => $_POST['email'] ? $_POST['email'] : '',
             "prdID" => $_POST['prdID'] ? $_POST['prdID'] : '',
             "content" => $_POST['content'] ? $_POST['content'] : '',
             "respone" => $_POST['respone'] ? $_POST['respone'] : '',
@@ -86,34 +87,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <h4 class="card-title">Sửa Category</h4>
                             <div class="basic-form">
                                 <form method="POST" action="" enctype="multipart/form-data">
+                                
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <label>User</label>
-                                            <select id="inputState" name="userID" required class="form-control">
-                                                <?php foreach ($user as $item) : ?>
-                                                    <?php if ($item['id'] == $comment['userID']) : ?>
-                                                        <option selected value="<?php echo $item['id'] ?>"><?php echo $item['userName'] ?></option>
-                                                    <?php else : ?>
-                                                        <option value="<?php echo $item['id'] ?>"><?php echo $item['userName'] ?></option>
-                                                    <?php endif ?>
-                                                <?php endforeach ?>
-                                            </select>
+                                            <label>Tên</label>
+                                            <input type="text" name="name" required class="form-control">
                                         </div>
-
                                         <div class="form-group col-md-6">
-                                            <label>Product</label>
-                                            <select id="inputState" name="prdID" required class="form-control">
-                                                <?php foreach ($product as $item) : ?>
-                                                    <?php if ($item['id'] == $comment['prdID']) : ?>
-                                                        <option selected value="<?php echo $item['id'] ?>"><?php echo $item['name'] ?></option>
-                                                    <?php else : ?>
-                                                        <option value="<?php echo $item['id'] ?>"><?php echo $item['name'] ?></option>
-                                                    <?php endif ?>
-                                                <?php endforeach ?>
-                                            </select>
+                                            <label>Email</label>
+                                            <input type="email" name="email" required class="form-control">
+                                        </div>
+                                        <div class="form-group col-md-6">
+
                                         </div>
                                     </div>
-
+                                    <div class="form-group">
+                                        <label>Sản Phẩm Cha</label>
+                                        <select id="inputState" name="prdID" required class="form-control">
+                                            <?php foreach ($product as $item) : ?>
+                                                <?php if ($item['id'] == $comment['prdID']) : ?>
+                                                    <option selected value="<?php echo $item['id'] ?>"><?php echo $item['name'] ?></option>
+                                                <?php else : ?>
+                                                    <option value="<?php echo $item['id'] ?>"><?php echo $item['name'] ?></option>
+                                                <?php endif ?>
+                                            <?php endforeach ?>
+                                        </select>
+                                    </div>
                                     <div class="form-group">
                                         <label>Content</label>
                                         <input type="text" required value="<?php echo $comment['content'] ?>" name="content" class="form-control">

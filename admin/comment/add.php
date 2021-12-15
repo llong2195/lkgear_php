@@ -12,9 +12,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // upload file
     $data =
         [
-            "userID" => $_POST['userID'] ? $_POST['userID'] : '',
             "prdID" => $_POST['prdID'] ? $_POST['prdID'] : '',
             "content" => $_POST['content'] ? $_POST['content'] : '',
+            "name" => $_POST['name'] ? $_POST['name'] : '',
+            "email" => $_POST['email'] ? $_POST['email'] : '',
             "respone" => $_POST['respone'] ? $_POST['respone'] : '',
             "rate" => $_POST['rate'] ? $_POST['rate'] : '',
             "active" => $_POST['active'] ? $_POST['active'] : '',
@@ -28,8 +29,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header('Location: ./add.php');
     }
 } else {
-    $sql = "select * from user";
-    $user = $db->fetchAll($sql);
     $sql1 = "select * from prdchill";
     $product = $db->fetchAll($sql1);
 }
@@ -88,30 +87,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label>Tên</label>
-                                            <select id="inputState" name="userID" required class="form-control">
-                                                <?php foreach ($user as $item) : ?>
-                                                    <option value="<?php echo $item['id'] ?>"><?php echo $item['userName'] ?></option>
-                                                <?php endforeach ?>
-                                            </select>
+                                            <input type="text" name="name" required class="form-control" >
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label>Sản Phẩm Cha</label>
-                                            <select id="inputState" name="prdID" required class="form-control">
-                                                <?php foreach ($product as $item) : ?>
-                                                    <option value="<?php echo $item['id'] ?>"><?php echo $item['name'] ?></option>
-                                                <?php endforeach ?>
-                                            </select>
+                                            <label>Email</label>
+                                            <input type="email" name="email" required class="form-control" >
+                                        </div>
+                                        <div class="form-group col-md-6">
+
                                         </div>
                                     </div>
-
+                                    <div class="form-group">
+                                        <label>Sản Phẩm Cha</label>
+                                        <select id="inputState" name="prdID" required class="form-control">
+                                            <?php foreach ($product as $item) : ?>
+                                                <option value="<?php echo $item['id'] ?>"><?php echo $item['name'] ?></option>
+                                            <?php endforeach ?>
+                                        </select>
+                                    </div>
 
                                     <div class="form-group">
                                         <label>Content</label>
-                                        <input type="text" name="content" required class="form-control" placeholder="1234 Main St">
+                                        <input type="text" name="content" required class="form-control" >
                                     </div>
                                     <div class="form-group">
                                         <label>Respone</label>
-                                        <input type="text" name="respone" class="form-control" placeholder="1234 Main St">
+                                        <input type="text" name="respone" class="form-control" >
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-8">

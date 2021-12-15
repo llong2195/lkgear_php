@@ -73,8 +73,9 @@
                                         <thead>
                                             <tr>
                                                 <th scope="col">id</th>
-                                                <th scope="col">User ID</th>
                                                 <th scope="col">Product ID</th>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Email</th>
                                                 <th scope="col">Time</th>
                                                 <th scope="col">Tiêu Đề</th>
                                                 <th scope="col">Phản Hồi</th>
@@ -86,8 +87,9 @@
                                             <?php foreach ($comment as $item) : ?>
                                             <tr>
                                                 <td><?php echo $item['id'] ?></td>
-                                                <td><?php echo $item['userID'] ?></td>
                                                 <td><?php echo $item['prdID'] ?></td>
+                                                <td><?php echo $item['name'] ?></td>
+                                                <td><?php echo $item['email'] ?></td>
                                                 <td><?php echo $item['time'] ?></td>
                                                 <td><?php echo $item['content'] ?></td>
                                                 <td><?php echo $item['respone'] ?></td>

@@ -39,7 +39,7 @@
                         <ul>
                             <?php foreach ($category as $item) : ?>
                                 <li style="list-style-position:inside; white-space: nowrap;  overflow: hidden; text-overflow: ellipsis; ">
-                                    <a href="./category.php?slug=<?php echo $item['slug'] ?>"><?php echo $item['name'] . ' - ' . $item['description'] ?></a>
+                                    <a href="./category.php?category=<?php echo $item['slug'] ?>"><?php echo $item['name'] . ' - ' . $item['description'] ?></a>
                                 </li>
                             <?php endforeach ?>
 
@@ -49,12 +49,12 @@
                 <div class="col-lg-9">
                     <div class="hero__search">
                         <div class="hero__search__form">
-                            <form action="#">
+                            <form action="./search.php" method="POST">
                                 <div class="hero__search__categories">
-                                    Danh Mục
+                                    All Categories
                                     <span class="arrow_carrot-down"></span>
                                 </div>
-                                <input type="text" placeholder="What do yo u need?">
+                                <input type="text" name="name" placeholder="Tìm Tên Sản Phẩm">
                                 <button type="submit" class="site-btn">SEARCH</button>
                             </form>
                         </div>
@@ -90,7 +90,7 @@
                     <?php foreach ($category as $item) : ?>
                         <div class="col-lg-3">
                             <div class="categories__item set-bg" data-setbg="<?php echo $base_url . $item['avatarImg'] ?>">
-                                <h5><a href="<?php echo $base_url . 'category.php?slug=' . $item['slug'] ?>"><?php echo $item['name'] ?></a></h5>
+                                <h5><a href="<?php echo $base_url . 'category.php?category=' . $item['slug'] ?>"><?php echo $item['name'] ?></a></h5>
                             </div>
                         </div>
                     <?php endforeach ?>
