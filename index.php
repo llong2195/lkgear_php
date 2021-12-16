@@ -23,7 +23,7 @@
     $slider = $db->fetchOne($sql1);
     $sql2 = "SELECT * FROM `fe` WHERE slug like '%ad%' and active = 1 limit 2";
     $ad = $db->fetchAll($sql2);
-    $sql3 = "SELECT `product`.*, `category`.`slug` AS 'categorySlug', `prdchill`.`priceSale` FROM `product`, `category`, `prdchill` WHERE `product`.`categoryID` = `category`.`id` and `prdchill`.prdID = `product`.`id`;";
+    $sql3 = "SELECT `product`.*, `category`.`slug` AS 'categorySlug', `prdchill`.`priceSale`, `prdchill`.`id` as `prdchillID` FROM `product`, `category`, `prdchill` WHERE `product`.`categoryID` = `category`.`id` and `prdchill`.prdID = `product`.`id`;";
     $product = $db->fetchAll($sql3);
     ?>
 
@@ -127,12 +127,12 @@
                         <div class="featured__item">
                             <div class="featured__item__pic set-bg" data-setbg="<?php echo $base_url . $item['avatarImg1'] ?>">
                                 <ul class="featured__item__pic__hover">
-                                    <li><a href="./product.php?slug=<?php echo $item['slug'] ?>"><i class="fa fa-heart"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                    <li><a href="./product.php?slug=<?php echo $item['slug'].'&prdchill='.$item['prdchillID'] ?>"><i class="fa fa-heart"></i></a></li>
+                                    <li><a href="./modules/cart/cart_add.php?prdchillID=<?php echo $item['prdchillID'] ?>"><i class="fa fa-shopping-cart"></i></a></li>
                                 </ul>
                             </div>
                             <div class="featured__item__text">
-                                <h6><a href="./product.php?slug=<?php echo $item['slug'] ?>"><?php echo $item['name'] ?></a></h6>
+                                <h6><a href="./product.php?slug=<?php echo $item['slug'].'&prdchill='.$item['prdchillID'] ?>"><?php echo $item['name'] ?></a></h6>
                                 <h5><?php echo number_format($item['priceSale']) ?> VND</h5>
                             </div>
                         </div>
@@ -176,7 +176,7 @@
                                     <div class="latest-prdouct__slider__item">
                                     <?php endif ?>
                                     <?php if ($item['categorySlug'] == 'laptop') : ?>
-                                        <a href="./product.php?slug=<?php echo $item['slug'] ?>" class="latest-product__item">
+                                        <a href="./product.php?slug=<?php echo $item['slug'].'&prdchill='.$item['prdchillID'] ?>" class="latest-product__item">
                                             <div class="latest-product__item__pic">
                                                 <img src="<?php echo $base_url . $item['avatarImg1'] ?>" alt="">
                                             </div>
@@ -214,7 +214,7 @@
                                 <div class="latest-prdouct__slider__item">
                                 <?php endif ?>
 
-                                <a href="./product.php?slug=<?php echo $item['slug'] ?>" class="latest-product__item">
+                                <a href="./product.php?slug=<?php echo $item['slug'].'&prdchill='.$item['prdchillID'] ?>" class="latest-product__item">
                                     <div class="latest-product__item__pic">
                                         <img src="<?php echo $base_url . $item['avatarImg1'] ?>" alt="">
                                     </div>
@@ -253,7 +253,7 @@
                                 <div class="latest-prdouct__slider__item">
                                 <?php endif ?>
 
-                                <a href="./product.php?slug=<?php echo $item['slug'] ?>" class="latest-product__item">
+                                <a href="./product.php?slug=<?php echo $item['slug'].'&prdchill='.$item['prdchillID'] ?>" class="latest-product__item">
                                     <div class="latest-product__item__pic">
                                         <img src="<?php echo $base_url . $item['avatarImg1'] ?>" alt="">
                                     </div>

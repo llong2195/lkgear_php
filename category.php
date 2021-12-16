@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         foreach ($_GET as $key => $value) {
             $param[$key] = $value;
         }
-    
+
         if (isset($param['category'])) {
             $cat_slug = $param['category'];
             if ($cat_slug == 'laptop') {
@@ -31,13 +31,13 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             // $sql_desc = "select * from category where slug like '%$cat_slug%'";
             $sql_prdChill = "and category.slug like '%$cat_slug%' ";
         }
-        $sql_prd = "SELECT `product`.* , `prdchill`.`price`, `prdchill`.`priceSale` FROM `prdchill` , `product`, `category` WHERE `prdchill`.`prdID` = `product`.`id` and `category`.`id` = `product`.`categoryID` and category.slug like '%$cat_slug%' \n";
-    
+        $sql_prd = "SELECT `product`.* , `prdchill`.`price`, `prdchill`.`priceSale` , `prdchill`.`id` as `prdchillID` FROM `prdchill` , `product`, `category` WHERE `prdchill`.`prdID` = `product`.`id` and `category`.`id` = `product`.`categoryID` and category.slug like '%$cat_slug%' \n";
+
         if (isset($param['sort']) && $param['sort'] == 1)
             $sql_prd .= "GROUP BY prdchill.priceSale DESC \n";
-    
+
         $sql_prd .= "limit 15;";
-    
+
         $prdChill = $db->fetchAll($sql_prd);
     }
 }
@@ -45,8 +45,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
 ?>
 <style>
-    .active__pagination{
-        background: #e93434;color: #e93434;color: #ffffff;
+    .active__pagination {
+        background: #e93434;
+        color: #e93434;
+        color: #ffffff;
     }
 </style>
 
@@ -143,8 +145,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                 <div class="product__item">
                                     <div class="product__item__pic set-bg" data-setbg="<?php echo $base_url . $item['avatarImg1'] ?>">
                                         <ul class="product__item__pic__hover">
-                                            <li><a href="./product.php?slug=<?php echo $item['slug'] ?>"><i class="fa fa-heart"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                            <li><a href="./product.php?slug=<?php echo $item['slug'] . '&prdchill=' . $item['prdchillID'] ?>"><i class="fa fa-heart"></i></a></li>
+                                            <li><a href="./modules/cart/cart_add.php?prdchillID=<?php echo $item['prdchillID'] ?>"><i class="fa fa-shopping-cart"></i></a></li>
                                         </ul>
                                     </div>
                                     <div class="product__item__text">

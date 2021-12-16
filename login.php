@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
 <?php require_once(__DIR__ . './layout/header.php') ?>
 </head>

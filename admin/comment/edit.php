@@ -91,11 +91,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label>Tên</label>
-                                            <input type="text" name="name" required class="form-control">
+                                            <input type="text" value="<?php echo $comment['name'] ?>" name="name" required class="form-control">
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label>Email</label>
-                                            <input type="email" name="email" required class="form-control">
+                                            <input type="email" value="<?php echo $comment['email'] ?>" name="email" required class="form-control">
                                         </div>
                                         <div class="form-group col-md-6">
 

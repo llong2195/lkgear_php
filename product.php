@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zxx">
+<html lang="vi">
 
 <head>
     <?php require_once(__DIR__ . './layout/header.php') ?>
@@ -7,6 +7,7 @@
 <?php
 $param = [];
 $prd_slug = "";
+$prdChillID;
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     if (isset($_GET)) {
         foreach ($_GET as $key => $value) {
@@ -14,9 +15,37 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         }
 
         $prd_slug = $param['slug'];
+        $prdChillID = $param['prdchill'];
     }
 }
-$sql = "SELECT `product`.* , `prdchill`.`id` as `prdchillID`, `prdchill`.`price`, `prdchill`.`priceSale`, `prdchill`.`brandID` FROM `prdchill` , `product`, `category` WHERE `prdchill`.`prdID` = `product`.`id` and `category`.`id` = `product`.`categoryID` and `product`.`slug` like '%$prd_slug%'";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $data =
+        [
+            "prdID" => $_POST['prdID'] ? $_POST['prdID'] : '',
+            "content" => $_POST['content'] ? $_POST['content'] : '',
+            "name" => $_POST['name'] ? $_POST['name'] : '',
+            "email" => $_POST['email'] ? $_POST['email'] : '',
+            "rate" => $_POST['rate'] ? $_POST['rate'] : '',
+            "active" => '1',
+        ];
+    $insert = $db->insert('comment', $data);
+    if ($insert > 0) {
+        $_SESSION['error'] = "Thêm thành công";
+        header("Refresh:0");
+    } else {
+        $_SESSION['error'] = "không thành công";
+        header("Refresh:0");
+    }
+}
+//
+foreach ($_GET as $key => $value) {
+    $param[$key] = $value;
+}
+
+$prd_slug = $param['slug'];
+$prdChillID = $param['prdchill'];
+//
+$sql = "SELECT `product`.* , `prdchill`.`id` as `prdchillID`, `prdchill`.`price`, `prdchill`.`priceSale`, `prdchill`.`brandID` FROM `prdchill` , `product`, `category` WHERE `prdchill`.`prdID` = `product`.`id` and `category`.`id` = `product`.`categoryID` and `product`.`slug` like '%$prd_slug%' and `prdchill`.`id` = '$prdChillID'";
 $product = $db->fetchOne($sql);
 $prdChillID = $product['prdchillID'];
 $sql1 = "SELECT * FROM `descprdchill` WHERE prdChillID = '$prdChillID'";
@@ -24,10 +53,13 @@ $desprdChill = $db->fetchAll($sql1);
 //
 $brandID = $product['brandID'];
 $catID = $product['categoryID'];
-echo $brandID .'-'.$catID;
+echo $brandID . '-' . $catID;
 // 
-$sql2 = "SELECT `product`.*, `category`.`slug` AS 'categorySlug', `prdchill`.`price`, `prdchill`.`priceSale` FROM `product`, `category`, `prdchill` WHERE `product`.`categoryID` = `category`.`id` and `prdchill`.prdID = `product`.`id` and (`prdchill`.`brandID` = $brandID or `product`.`categoryID` = $catID) limit 4";
+$sql2 = "SELECT `product`.*, `category`.`slug` AS 'categorySlug', `prdchill`.`price`, `prdchill`.`priceSale`, `prdchill`.`id` as `prdchillID` FROM `product`, `category`, `prdchill` WHERE `product`.`categoryID` = `category`.`id` and `prdchill`.prdID = `product`.`id` and (`prdchill`.`brandID` = $brandID or `product`.`categoryID` = $catID) limit 4";
 $prdSame = $db->fetchAll($sql2);
+
+$sql_cmt = "SELECT * FROM `comment` WHERE `prdID` = $prdChillID ORDER BY id DESC ";
+$cmtPrd = $db->fetchAll($sql_cmt);
 ?>
 
 <body>
@@ -75,14 +107,13 @@ $prdSame = $db->fetchAll($sql2);
                         <div class="product__details__quantity">
                             <div class="quantity">
                                 <div class="pro-qty">
-                                    <input type="text" value="1">
+                                    <input id="qty" onchange="qtyChange()" type="text" value="1">
                                 </div>
                             </div>
                         </div>
-                        <a href="#" class="primary-btn">Thêm Giỏ Hàng</a>
-                        <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                        <a id="addToCart" href="./modules/cart/cart_add.php?prdchillID=<?php echo $product['prdchillID'] ?>&qty=1" class="primary-btn">Thêm Giỏ Hàng</a>
                         <ul>
-                            
+
 
                             <li><b>Chia Sẻ</b>
                                 <div class="share">
@@ -138,26 +169,47 @@ $prdSame = $db->fetchAll($sql2);
                                 </div>
                             </div>
                             <div class="tab-pane" id="tabs-2" role="tabpanel">
+                                <div class="container">
+                                    <form action="" method="POST" style="align-items: center;">
+                                        <div class="form-row">
+                                            <input required type="text" hidden name="prdID" value="<?php echo $prdChillID ?>">
+
+                                            <div class="form-group col-lg-5 col-md-5">
+                                                <label>Tên</label>
+                                                <input required type="text" name="name" class="form-control" placeholder="Your name">
+                                            </div>
+                                            <div class="form-group col-lg-5 col-md-5">
+                                                <label>Email</label>
+                                                <input required type="email" name="email" class="form-control" placeholder="Your Email">
+                                            </div>
+                                            <div class="form-group col-lg-2 col-md-2">
+                                                <label>Start</label>
+                                                <input required type="number" name="rate" min="1" max="5" value="5" class="form-control" placeholder="">
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group ">
+                                            <label>Nội Dung</label>
+                                            <textarea class="form-control" name="content" id="" cols="10" rows="2"></textarea>
+                                        </div>
+                                        <input type="submit" class="btn btn-dark" value="Gửi">
+                                    </form>
+                                </div>
                                 <div class="product__details__tab__desc">
                                     <h6>Bình Luận</h6>
                                     <ul class="" style="list-style-type: none;">
+                                        <?php foreach($cmtPrd as $item) : ?>
                                         <li>
                                             <ul style="list-style-type: none;">
-                                                <li><b><?php echo "123" ?></b></li>
-                                                <li><?php echo "date" ?></li>
+                                                <li><b><?php echo $item['name'] ?></b>&emsp;&emsp;time : <?php echo $item['time'] ?>&emsp;&emsp;đánh giá : <?php echo $item['rate'] ?></li>
+                                                
                                                 <li>
-                                                    <p><?php echo "cmt" ?></p>
+                                                    <p><?php echo $item['content'] ?></p>
                                                 </li>
                                             </ul>
                                         </li>
-                                        <li>
-                                            <ul style="list-style-type: none;">
-                                                <li><b><?php echo "123" ?></b> <?php echo "date" ?></li>
-                                                <li>
-                                                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quod ratione possimus excepturi eligendi sapiente dignissimos dolore error vitae, et exercitationem vero aspernatur dolorum nostrum nulla aliquid quasi dicta pariatur cumque.</p>
-                                                </li>
-                                            </ul>
-                                        </li>
+                                        <?php endforeach ?>
+                                        
 
                                     </ul>
                                 </div>
@@ -187,7 +239,7 @@ $prdSame = $db->fetchAll($sql2);
                         <div class="product__item">
                             <div class="product__item__pic set-bg" data-setbg="<?php echo $base_url . $item['avatarImg1'] ?>">
                                 <ul class="product__item__pic__hover">
-                                    <li><a href="./product.php?slug=<?php echo $item['slug'] ?>"><i class="fa fa-heart"></i></a></li>
+                                    <li><a href="./product.php?slug=<?php echo $item['slug'] . '&prdchill=' . $item['prdchillID'] ?>"><i class="fa fa-heart"></i></a></li>
                                     <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
                                 </ul>
                             </div>
@@ -210,7 +262,23 @@ $prdSame = $db->fetchAll($sql2);
     <!-- Js Plugins -->
     <?php require_once(__DIR__ . './layout/script.php') ?>
 
+    <script >
 
+        function qtyChange(){
+            console.log('change');
+            const input = document.getElementById('qty');
+            let qty = input.value;
+            const addToCart = document.getElementById('addToCart');
+            let href = addToCart.href.split('&');
+            href[1] = 'qty='+qty;
+            href=href.join('&');
+            console.log(href);
+            addToCart.href = href;
+
+        }
+
+
+    </script>
 </body>
 
 </html>

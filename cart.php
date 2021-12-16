@@ -5,44 +5,23 @@
     <?php require_once(__DIR__ . './layout/header.php') ?>
 </head>
 <?php
-$sql = "SELECT * FROM category";
-$category = $db->fetchAll($sql);
-$sql = "SELECT * FROM brand";
-$brand = $db->fetchAll($sql);
 $param = [];
-$cat_slug = "";
+$total_price = 0;
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    if (isset($_GET)) {
-        foreach ($_GET as $key => $value) {
-            $param[$key] = $value;
+    if (isset($_SESSION['cart'])) {
+
+        $arr_id = [];
+        $arr_qty = [];
+        foreach ($_SESSION['cart'] as $key => $value) {
+            $arr_id[] = $key;
+            $arr_qty[$key] = $value;
         }
-    
-        if (isset($param['category'])) {
-            $cat_slug = $param['category'];
-            if ($cat_slug == 'laptop') {
-                // desc laptop : ram, cpu ...
-                /*
-            $descprdchillName = "SELECT DISTINCT `descprdchill`.`name` \n"
-                . "FROM `descprdchill`, `category`, `prdchill`, `product`\n"
-                . "WHERE `descprdchill`.`prdChillID` = `prdchill`.`id` \n"
-                . "    and `prdchill`.`prdID` = `product`.`id`\n"        
-            */
-            }
-            // $sql_desc = "select * from category where slug like '%$cat_slug%'";
-            $sql_prdChill = "and category.slug like '%$cat_slug%' ";
-        }
-        $sql_prd = "SELECT `product`.* , `prdchill`.`price`, `prdchill`.`priceSale` FROM `prdchill` , `product`, `category` WHERE `prdchill`.`prdID` = `product`.`id` and `category`.`id` = `product`.`categoryID` and category.slug like '%$cat_slug%' \n";
-    
-        if (isset($param['sort']) && $param['sort'] == 1)
-            $sql_prd .= "GROUP BY prdchill.priceSale DESC \n";
-    
-        $sql_prd .= "limit 15;";
-    
-        $prdChill = $db->fetchAll($sql_prd);
+        // join(' , ');
+        $str_sql = implode(" , ", $arr_id);
+        $sql = "SELECT `product`.* , `prdchill`.`id` as `prdchillID`, `prdchill`.`price`, `prdchill`.`priceSale`, `prdchill`.`brandID` FROM `prdchill` , `product`, `category` WHERE `prdchill`.`prdID` = `product`.`id` and `category`.`id` = `product`.`categoryID` and `prdchill`.`id` IN ($str_sql)";
+        $prd_cart = $db->fetchAll($sql);
     }
 }
-
-
 ?>
 
 
@@ -68,93 +47,47 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                         <table>
                             <thead>
                                 <tr>
-                                    <th class="shoping__product">Products</th>
-                                    <th>Price</th>
-                                    <th>Quantity</th>
-                                    <th>Total</th>
+                                    <th class="shoping__product">Tên Sản Phẩm</th>
+
+                                    <th>Giá Khuyến Mãi</th>
+                                    <th>Số Lượng</th>
+                                    <th>Thành Tiền</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="shoping__cart__item">
-                                        <img src="img/cart/cart-1.jpg" alt="">
-                                        <h5>Vegetable’s Package</h5>
-                                    </td>
-                                    <td class="shoping__cart__price">
-                                        $55.00
-                                    </td>
-                                    <td class="shoping__cart__quantity">
-                                        <div class="quantity">
-                                            <div class="pro-qty">
-                                                <input type="text" value="1">
+                                <?php foreach ($prd_cart as $key => $item) : ?>
+                                    <tr>
+                                        <td class="shoping__cart__item">
+                                            <img width="100px" src="<?php echo $base_url . $item['avatarImg1'] ?>" alt="">
+                                            <h5><?php echo $item['name'] ?></h5>
+                                        </td>
+
+                                        <td class="shoping__cart__price">
+                                            <?php echo number_format($item['priceSale']) ?>
+                                        </td>
+                                        <td class="shoping__cart__quantity">
+                                            <div class="quantity">
+                                                <input style="width : 50px" name="qty" class="qty_cart" type="number" prdChill = "<?php echo $item['prdchillID'] ?>" value="<?php echo $arr_qty[$item['prdchillID']] ?>">
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td class="shoping__cart__total">
-                                        $110.00
-                                    </td>
-                                    <td class="shoping__cart__item__close">
-                                        <span class="icon_close"></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="shoping__cart__item">
-                                        <img src="img/cart/cart-2.jpg" alt="">
-                                        <h5>Fresh Garden Vegetable</h5>
-                                    </td>
-                                    <td class="shoping__cart__price">
-                                        $39.00
-                                    </td>
-                                    <td class="shoping__cart__quantity">
-                                        <div class="quantity">
-                                            <div class="pro-qty">
-                                                <input type="text" value="1">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="shoping__cart__total">
-                                        $39.99
-                                    </td>
-                                    <td class="shoping__cart__item__close">
-                                        <span class="icon_close"></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="shoping__cart__item">
-                                        <img src="img/cart/cart-3.jpg" alt="">
-                                        <h5>Organic Bananas</h5>
-                                    </td>
-                                    <td class="shoping__cart__price">
-                                        $69.00
-                                    </td>
-                                    <td class="shoping__cart__quantity">
-                                        <div class="quantity">
-                                            <div class="pro-qty">
-                                                <input type="text" value="1">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="shoping__cart__total">
-                                        $69.99
-                                    </td>
-                                    <td class="shoping__cart__item__close">
-                                        <span class="icon_close"></span>
-                                    </td>
-                                </tr>
+                                        </td>
+                                        <td class="shoping__cart__total">
+                                            <?php $total_price += $item['priceSale'] * $arr_qty[$item['prdchillID']] ?>
+                                            <?php echo number_format($item['priceSale'] * $arr_qty[$item['prdchillID']]) ?> D
+                                        </td>
+                                        <td class="shoping__cart__item__close">
+                                            <a class="btn_ref" href="./modules/cart/cart_update.php?prdchillID=<?php echo $item['prdchillID'] ?>&qty=<?php echo $arr_qty[$item['prdchillID']] ?>"><i style="font-size: 20px;color: #b2b2b2;cursor: pointer;" class="fa fa-refresh" aria-hidden="true"></i></a>
+                                            <a href="./modules/cart/cart_delete.php?prdchillID=<?php echo $item['prdchillID'] ?>"><span class="icon_close"></span></a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach ?>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-12">
-                    <div class="shoping__cart__btns">
-                        <a href="#" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
-                        <a href="#" class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>
-                            Upadate Cart</a>
-                    </div>
-                </div>
+
                 <div class="col-lg-6">
                     <div class="shoping__continue">
                         <div class="shoping__discount">
@@ -170,10 +103,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     <div class="shoping__checkout">
                         <h5>Cart Total</h5>
                         <ul>
-                            <li>Subtotal <span>$454.98</span></li>
-                            <li>Total <span>$454.98</span></li>
+                            <li>Số Lượng <span><?php echo $_SESSION['qty'] ?></span></li>
+                            <li>Thành Tiền <span><?php echo number_format($total_price) ?> VND</span></li>
                         </ul>
-                        <a href="#" class="primary-btn">PROCEED TO CHECKOUT</a>
+                        <a href="./checkout.php" class="primary-btn">Đặt Hàng</a>
                     </div>
                 </div>
             </div>
@@ -188,7 +121,22 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     <!-- Js Plugins -->
     <?php require_once(__DIR__ . './layout/script.php') ?>
 
+    <script>
 
+        let arrQty = document.querySelectorAll('.qty_cart');
+        let arr_ref = document.querySelectorAll('.btn_ref');
+        arrQty.forEach(element => {
+            element.addEventListener('input', updateHref);
+        });
+        function updateHref(){
+            arr_ref.forEach((item, index) => {
+                let tmp_href = arr_ref[index].attributes['href'].value;
+                tmp_href = tmp_href.split('&');
+                tmp_href[1] = "qty="+parseInt(arrQty[index].value);
+                arr_ref[index].attributes['href'].value = tmp_href.join('&');
+            });
+        }
+    </script>
 
 </body>
 

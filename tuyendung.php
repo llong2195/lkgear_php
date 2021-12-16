@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <?php require_once('./lib/autoload.php') ?>
 
 <head>

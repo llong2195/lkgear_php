@@ -7,7 +7,8 @@
 
 </head>
 <?php
-    $sql = "select bill.*, user.displayName as `userName`, account.displayName as `accName` from bill, user, account where bill.userID = user.id and bill.accID = account.id";
+
+    $sql = "select bill.*, account.displayName as `accName` from bill,  account where  bill.accID = account.id";
     $bill = $db->fetchAll($sql);
 ?>
 <body>
