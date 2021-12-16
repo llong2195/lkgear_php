@@ -20,11 +20,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $data =
         [
-            "userID" => $_POST['userID'] ? $_POST['userID'] : '',
+            "userName" => $_POST['userName'] ? $_POST['userName'] : '',
+            "sdt" => $_POST['sdt'] ? $_POST['sdt'] : '',
+            "email" => $_POST['email'] ? $_POST['email'] : '',
+            "addr" => $_POST['addr'] ? $_POST['addr'] : '',
+            "qty" => $_POST['qty'] ? $_POST['qty'] : '',
+            "total" => $_POST['total'] ? $_POST['total'] : '',
             "accID" => $_POST['accID'] ? $_POST['accID'] : '',
-            "status" => $_POST['status'] ? $_POST['status'] : '',
         ];
-
     $update = $db->update('bill', $data, array('id' => $id));
     if ($update > 0) {
         $_SESSION['error'] = "sửa thành công";
@@ -85,28 +88,71 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <form method="POST" action="">
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <select id="inputState" name="userID" required class="form-control">
-                                                <?php foreach ($user as $item) : ?>
-                                                    <option value="<?php echo $item['id'] ?>"><?php echo $item['displayName'] ?></option>
-                                                <?php endforeach ?>
-                                            </select>
+                                            <label>Tên</label>
+                                            <input type="text" value="<?php echo $bill['userName'] ?>" name="userName" required class="form-control" placeholder="userName">
                                         </div>
-                                        <div class="form-row col-md-6">
-                                            <select id="inputState" name="accID" required class="form-control">
-                                                <?php foreach ($account as $item) : ?>
-                                                    <option value="<?php echo $item['id'] ?>"><?php echo $item['displayName'] ?></option>
-                                                <?php endforeach ?>
-                                            </select>
+                                        <div class="form-group col-md-6">
+                                            <label>số điện thoại</label>
+                                            <input type="number" value="<?php echo $bill['sdt'] ?>" name="sdt" required class="form-control">
                                         </div>
+
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
+                                            <label>Email</label>
+                                            <input type="text" value="<?php echo $bill['email'] ?>" name="email" required class="form-control" placeholder="userName">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label>Địa Chỉ</label>
+                                            <input type="text" value="<?php echo $bill['addr'] ?>" name="addr" required class="form-control">
+                                        </div>
+
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label>Ngày Hóa Đơn</label>
+                                            <input type="date" value="<?php echo $bill['date'] ?>" name="date" required class="form-control">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label>Số Lượng</label>
+                                            <input type="number" value="<?php echo $bill['qty'] ?>" name="qty" required class="form-control" placeholder="userName">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label>Thành Tiền</label>
+                                            <input type="number" value="<?php echo $bill['total'] ?>" name="total" required class="form-control" placeholder="userName">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+
+                                        <div class="form-group col-md-6">
+                                            <label>Nhân Viên </label>
+                                            <select id="inputState" name="accID" required class="form-control">
+                                                <?php foreach ($account as $item) : ?>
+                                                    <?php if ($item['id'] == $bill['accID']) : ?>
+                                                        <option selected value="<?php echo $item['id'] ?>"><?php echo $item['displayName'] ?></option>
+                                                    <?php else : ?>
+                                                        <option value="<?php echo $item['id'] ?>"><?php echo $item['displayName'] ?></option>
+                                                    <?php endif ?>
+                                                <?php endforeach ?>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label>Trạng Thái Thanh Toán</label>
                                             <select id="inputState" name="status" required class="form-control">
-                                                <option value="1">Đã Thanh Toán</option>
-                                                <option selected="selected" value="0">Chưa Thanh Toán</option>
+                                                <?php if ($category['status'] == 1) :  ?>
+                                                    <option selected value="1">Đã Thanh Toán</option>
+                                                    <option value="0">Chưa Thanh Toán</option>
+                                                <?php else : ?>
+                                                    <option value="1">Đã Thanh Toán</option>
+                                                    <option selected value="0">Chưa Thanh Toán</option>
+                                                <?php endif; ?>
                                             </select>
                                         </div>
                                     </div>
+
                                     <button type="submit" class="btn btn-dark">Tạo Bill</button>
                                     <a class="btn btn-info" href="./../billinfo/index.php?billID=<?php echo $bill['id'] ?>">Chi Tiết Hóa ĐƠn</a>
                                 </form>

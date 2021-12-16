@@ -33,17 +33,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ];
             $insert_billinfor = $db->insert('billinfor', $data_prd);
         }
+        unset($_SESSION['cart']);
+        unset($_SESSION['qty']);
+        header('Location:./index.php');
     }
-
-    unset($_SESSION['cart']);
-    unset($_SESSION['qty']);
-    header('Location:./index.php');
-
 }
 $param = [];
 $total_price = 0;
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    if (isset($_SESSION['cart'])) {
+    if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0) {
 
         $arr_id = [];
         $arr_qty = [];
@@ -54,9 +52,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         // join(' , ');
         $str_sql = implode(" , ", $arr_id);
         $sql = "SELECT `product`.* , `prdchill`.`id` as `prdchillID`, `prdchill`.`price`, `prdchill`.`priceSale`, `prdchill`.`brandID` FROM `prdchill` , `product`, `category` WHERE `prdchill`.`prdID` = `product`.`id` and `category`.`id` = `product`.`categoryID` and `prdchill`.`id` IN ($str_sql)";
-        $prd_cart = $db->fetchAll($sql);
+        $prd_cart;
+        if(count($arr_id)>0)
+            $prd_cart = $db->fetchAll($sql);
     }
-
 }
 
 ?>
@@ -111,12 +110,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                 <h4>Giỏ Hàng</h4>
                                 <div class="checkout__order__products">Tên <span>Thành Tiền</span></div>
                                 <ul>
-                                    <?php foreach ($prd_cart as $key => $item) : ?>
+                                    <?php if(count($_SESSION['cart']) > 0) : ?>
+                                        <?php foreach ($prd_cart as $key => $item) : ?>
                                         <?php $total_price += $item['priceSale'] * $arr_qty[$item['prdchillID']] ?>
                                         <li><?php echo $item['name'] ?> <span><?php echo number_format($item['priceSale'] * $arr_qty[$item['prdchillID']]) ?></span></li>
                                     <?php endforeach ?>
+                                    <?php endif ?>
                                 </ul>
-                                <input type="number" value="<?php echo $_SESSION['qty'] ?>"  hidden name="qty" id="">
+                                <input type="number" value="<?php echo $_SESSION['qty'] ?>" hidden name="qty" id="">
                                 <input type="number" value="<?php echo $total_price ?>" hidden name="total" id="">
                                 <div class="checkout__order__total">Thành Tiền <span><?php echo number_format($total_price) ?></span></div>
 

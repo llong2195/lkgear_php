@@ -12,9 +12,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // upload file
     $data =
         [
-            "userID" => $_POST['userID'] ? $_POST['userID'] : '',
+            "userName" => $_POST['userName'] ? $_POST['userName'] : '',
+            "sdt" => $_POST['sdt'] ? $_POST['sdt'] : '',
+            "email" => $_POST['email'] ? $_POST['email'] : '',
+            "addr" => $_POST['addr'] ? $_POST['addr'] : '',
             "accID" => $_POST['accID'] ? $_POST['accID'] : '',
-           
         ];
     $insert = $db->insert('bill', $data);
     if ($insert > 0) {
@@ -84,13 +86,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <form method="POST" action="">
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <select id="inputState" name="userID" required class="form-control">
-                                                <?php foreach ($user as $item) : ?>
-                                                    <option value="<?php echo $item['id'] ?>"><?php echo $item['displayName'] ?></option>
-                                                <?php endforeach ?>
-                                            </select>
+                                            <label>Tên</label>
+                                            <input type="text" name="userName" required class="form-control" placeholder="userName">
                                         </div>
-                                        <div class="form-row col-md-6">
+                                        <div class="form-group col-md-6">
+                                            <label>số điện thoại</label>
+                                            <input type="number" name="sdt" required class="form-control">
+                                        </div>
+
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label>Email</label>
+                                            <input type="text" name="email" required class="form-control" placeholder="userName">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label>Địa Chỉ</label>
+                                            <input type="number" name="addr" required class="form-control">
+                                        </div>
+
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label>Nhân Viên</label>
                                             <select id="inputState" name="accID" required class="form-control">
                                                 <?php foreach ($account as $item) : ?>
                                                     <option value="<?php echo $item['id'] ?>"><?php echo $item['displayName'] ?></option>

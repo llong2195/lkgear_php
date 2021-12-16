@@ -8,7 +8,7 @@
 $param = [];
 $total_price = 0;
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    if (isset($_SESSION['cart'])) {
+    if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0) {
 
         $arr_id = [];
         $arr_qty = [];
@@ -56,7 +56,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($prd_cart as $key => $item) : ?>
+                                <?php if(count($_SESSION['cart']) > 0) :?>
+                                    <?php foreach ($prd_cart as $key => $item) : ?>
                                     <tr>
                                         <td class="shoping__cart__item">
                                             <img width="100px" src="<?php echo $base_url . $item['avatarImg1'] ?>" alt="">
@@ -81,6 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                         </td>
                                     </tr>
                                 <?php endforeach ?>
+                                <?php endif ?>
                             </tbody>
                         </table>
                     </div>

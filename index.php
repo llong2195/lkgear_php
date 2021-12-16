@@ -170,10 +170,11 @@
                         <h4>Laptop</h4>
                         <div class="latest-product__slider owl-carousel">
 
-                            <?php $count_item = 0; ?>
+                            <?php $count_item = 0;
+                            $count = 0; ?>
                             <?php foreach ($product as $index => $item) : ?>
-                                <?php if ($count_item == 0) : ?>
-                                    <div class="latest-prdouct__slider__item">
+                                    <?php if ($count_item == 0) : ?>
+                                        <div class="latest-prdouct__slider__item">
                                     <?php endif ?>
                                     <?php if ($item['categorySlug'] == 'laptop') : ?>
                                         <a href="./product.php?slug=<?php echo $item['slug'].'&prdchill='.$item['prdchillID'] ?>" class="latest-product__item">
@@ -185,13 +186,15 @@
                                                 <span><?php echo number_format($item['priceSale']) ?> VND</span>
                                             </div>
                                         </a>
-                                        <?php $count_item++; ?>
+                                        <?php $count_item++;
+                                        $count++; ?>
                                         <?php
 
                                         if ($count_item == 3) {
                                             $count_item = 0;
                                             print('</div>');
                                         }
+                                        if ($count == 9) break;
                                         ?>
                                     <?php endif ?>
                                 <?php endforeach ?>

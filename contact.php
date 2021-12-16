@@ -4,6 +4,27 @@
 <head>
     <?php require_once(__DIR__ . './layout/header.php') ?>
 </head>
+<?php
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // upload file
+        $data =
+            [
+                "name" => $_POST['name'] ? $_POST['name'] : '',
+                "mail" => $_POST['mail'] ? $_POST['mail'] : '',
+                "content" => $_POST['content'] ? $_POST['content'] : '',
+                
+            ];
+        $insert = $db->insert('contact', $data);
+        if ($insert > 0) {
+            $_SESSION['error'] = "Thêm thành công";
+            header('Location: ./index.php');
+        } else {
+            $_SESSION['error'] = "không thành công";
+            header('Location: ./add.php');
+        }
+    }
+
+?>
 
 <body>
     <!-- Page Preloder -->
@@ -41,29 +62,29 @@
                 <div class="col-lg-3 col-md-3 col-sm-6 text-center">
                     <div class="contact__widget">
                         <span class="icon_phone"></span>
-                        <h4>Phone</h4>
-                        <p>+01-3-8888-6868</p>
+                        <h4>SDT</h4>
+                        <p>0961955201</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 text-center">
                     <div class="contact__widget">
                         <span class="icon_pin_alt"></span>
-                        <h4>Address</h4>
-                        <p>60-49 Road 11378 New York</p>
+                        <h4>Địa Chỉ</h4>
+                        <p>123 - Trần Duy Hưng - Hà Nội</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 text-center">
                     <div class="contact__widget">
                         <span class="icon_clock_alt"></span>
                         <h4>Open time</h4>
-                        <p>10:00 am to 23:00 pm</p>
+                        <p>8:00 am to 21:00 pm</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 text-center">
                     <div class="contact__widget">
                         <span class="icon_mail_alt"></span>
                         <h4>Email</h4>
-                        <p>hello@colorlib.com</p>
+                        <p>lkgear@gmail.com</p>
                     </div>
                 </div>
             </div>
@@ -97,17 +118,17 @@
                     </div>
                 </div>
             </div>
-            <form action="#">
+            <form action="" method="POST">
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
-                        <input type="text" placeholder="Your name">
+                        <input type="text" required name="name" placeholder="Your name">
                     </div>
                     <div class="col-lg-6 col-md-6">
-                        <input type="text" placeholder="Your Email">
+                        <input type="email" required name="mail" placeholder="Your Email">
                     </div>
                     
                     <div class="col-lg-12 text-center">
-                        <textarea placeholder="Your message"></textarea>
+                        <textarea name="content" required placeholder="Your message"></textarea>
                         <button type="submit" class="site-btn">Gửi</button>
                     </div>
                 </div>
