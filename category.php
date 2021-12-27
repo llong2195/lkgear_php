@@ -35,7 +35,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
         if (isset($param['sort']) && $param['sort'] == 1)
             $sql_prd .= "GROUP BY prdchill.priceSale DESC \n";
-
+        if(isset($param['sort']) && $param['sort'] == 0){
+            $sql_prd .= "GROUP BY prdchill.priceSale ASC \n";
+        }
         $sql_prd .= "limit 15;";
 
         $prdChill = $db->fetchAll($sql_prd);

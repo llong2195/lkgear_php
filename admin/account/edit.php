@@ -105,7 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Thêm Account</h4>
+                            <h4 class="card-title">Sửa Account</h4>
                             <div class="basic-form">
                                 <form method="POST" action="" enctype="multipart/form-data">
                                     <!-- <div class="form-group">

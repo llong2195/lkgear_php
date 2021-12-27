@@ -25,7 +25,7 @@ $category = $db->fetchAll($sql);
             <div class="col-lg-9">
                 <div class="hero__search">
                     <div class="hero__search__form">
-                        <form action="./search.php" method="POST">
+                        <form action="./search.php" method="GET">
                             <div class="hero__search__categories">
                                 All Categories
                                 <span class="arrow_carrot-down"></span>

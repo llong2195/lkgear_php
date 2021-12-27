@@ -49,7 +49,7 @@
                 <div class="col-lg-9">
                     <div class="hero__search">
                         <div class="hero__search__form">
-                            <form action="./search.php" method="POST">
+                            <form action="./search.php" method="GET">
                                 <div class="hero__search__categories">
                                     All Categories
                                     <span class="arrow_carrot-down"></span>
@@ -127,12 +127,12 @@
                         <div class="featured__item">
                             <div class="featured__item__pic set-bg" data-setbg="<?php echo $base_url . $item['avatarImg1'] ?>">
                                 <ul class="featured__item__pic__hover">
-                                    <li><a href="./product.php?slug=<?php echo $item['slug'].'&prdchill='.$item['prdchillID'] ?>"><i class="fa fa-heart"></i></a></li>
+                                    <li><a href="./product.php?slug=<?php echo $item['slug'] . '&prdchill=' . $item['prdchillID'] ?>"><i class="fa fa-heart"></i></a></li>
                                     <li><a href="./modules/cart/cart_add.php?prdchillID=<?php echo $item['prdchillID'] ?>"><i class="fa fa-shopping-cart"></i></a></li>
                                 </ul>
                             </div>
                             <div class="featured__item__text">
-                                <h6><a href="./product.php?slug=<?php echo $item['slug'].'&prdchill='.$item['prdchillID'] ?>"><?php echo $item['name'] ?></a></h6>
+                                <h6><a href="./product.php?slug=<?php echo $item['slug'] . '&prdchill=' . $item['prdchillID'] ?>"><?php echo $item['name'] ?></a></h6>
                                 <h5><?php echo number_format($item['priceSale']) ?> VND</h5>
                             </div>
                         </div>
@@ -173,11 +173,11 @@
                             <?php $count_item = 0;
                             $count = 0; ?>
                             <?php foreach ($product as $index => $item) : ?>
-                                    <?php if ($count_item == 0) : ?>
-                                        <div class="latest-prdouct__slider__item">
+                                <?php if ($count_item == 0) : ?>
+                                    <div class="latest-prdouct__slider__item">
                                     <?php endif ?>
                                     <?php if ($item['categorySlug'] == 'laptop') : ?>
-                                        <a href="./product.php?slug=<?php echo $item['slug'].'&prdchill='.$item['prdchillID'] ?>" class="latest-product__item">
+                                        <a href="./product.php?slug=<?php echo $item['slug'] . '&prdchill=' . $item['prdchillID'] ?>" class="latest-product__item">
                                             <div class="latest-product__item__pic">
                                                 <img src="<?php echo $base_url . $item['avatarImg1'] ?>" alt="">
                                             </div>
@@ -217,7 +217,7 @@
                                 <div class="latest-prdouct__slider__item">
                                 <?php endif ?>
 
-                                <a href="./product.php?slug=<?php echo $item['slug'].'&prdchill='.$item['prdchillID'] ?>" class="latest-product__item">
+                                <a href="./product.php?slug=<?php echo $item['slug'] . '&prdchill=' . $item['prdchillID'] ?>" class="latest-product__item">
                                     <div class="latest-product__item__pic">
                                         <img src="<?php echo $base_url . $item['avatarImg1'] ?>" alt="">
                                     </div>
@@ -256,7 +256,7 @@
                                 <div class="latest-prdouct__slider__item">
                                 <?php endif ?>
 
-                                <a href="./product.php?slug=<?php echo $item['slug'].'&prdchill='.$item['prdchillID'] ?>" class="latest-product__item">
+                                <a href="./product.php?slug=<?php echo $item['slug'] . '&prdchill=' . $item['prdchillID'] ?>" class="latest-product__item">
                                     <div class="latest-product__item__pic">
                                         <img src="<?php echo $base_url . $item['avatarImg1'] ?>" alt="">
                                     </div>
