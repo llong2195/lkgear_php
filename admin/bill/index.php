@@ -74,11 +74,11 @@
                                         <thead>
                                             <tr>
                                                 <th scope="col">id</th>
-                                                <th scope="col">User</th>
-                                                <th scope="col">Acc</th>
-                                                <th scope="col">Time</th>
-                                                <th scope="col">Qty</th>
-                                                <th scope="col">Total</th>
+                                                <th scope="col">Tên KH</th>
+                                                <th scope="col">Tên NV</th>
+                                                <th scope="col">Ngày HD</th>
+                                                <th scope="col">Số Lượng</th>
+                                                <th scope="col">Tổng</th>
                                                 <th scope="col">Thanh Toán</th>
                                                 <th scope="col">Action</th>
                                             </tr>
@@ -91,7 +91,7 @@
                                                 <td><?php echo $item['accName'] ?></td>
                                                 <td><?php echo $item['date'] ?></td>
                                                 <td><?php echo $item['qty'] ?></td>
-                                                <td><?php echo $item['total'] ?></td>
+                                                <td><?php echo number_format($item['total'])  ?>vnd</td>
                                                 <td><span class="label <?php echo ($item['status']==1)?'gradient-2' :'gradient-1' ?>  btn-rounded"><?php echo ($item['status']==1)?'Đã thanh toán' :'chưa thanh toán' ?></span>
                                                 </td>
                                                 <td>

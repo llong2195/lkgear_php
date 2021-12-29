@@ -27,6 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             "qty" => $_POST['qty'] ? $_POST['qty'] : '',
             "total" => $_POST['total'] ? $_POST['total'] : '',
             "accID" => $_POST['accID'] ? $_POST['accID'] : '',
+            "status" => $_POST['status'] ? $_POST['status'] : '',
         ];
     $update = $db->update('bill', $data, array('id' => $id));
     if ($update > 0) {
@@ -148,7 +149,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <div class="form-group col-md-6">
                                             <label>Trạng Thái Thanh Toán</label>
                                             <select id="inputState" name="status" required class="form-control">
-                                                <?php if ($category['status'] == 1) :  ?>
+                                                <?php if ($bill['status'] == 1) :  ?>
                                                     <option selected value="1">Đã Thanh Toán</option>
                                                     <option value="0">Chưa Thanh Toán</option>
                                                 <?php else : ?>

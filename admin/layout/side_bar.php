@@ -13,26 +13,26 @@
             </li>
             <li class="mega-menu mega-menu-sm">
                 <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                    <i class="icon-globe-alt menu-icon"></i><span class="nav-text">Layouts</span>
+                    <i class="icon-docs menu-icon"></i><span class="nav-text">Giao Diện</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="<?php echo $base_url ?>admin/fe/index.php">Danh Sách layout</a></li>
+                    <li><a href="<?php echo $base_url ?>admin/fe/index.php">Danh Sách</a></li>
                     
                 </ul>
             </li>
            
             <li class="mega-menu mega-menu-sm">
                 <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                    <i class="icon-globe-alt menu-icon"></i><span class="nav-text">Account</span>
+                    <i class="icon-user-following menu-icon"></i><span class="nav-text">Tài Khoản</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="<?php echo $base_url ?>admin/account">Danh Sách Account</a></li>
+                    <li><a href="<?php echo $base_url ?>admin/account">Danh Sách Tài Khoản</a></li>
                     
                 </ul>
             </li>
             <li class="mega-menu mega-menu-sm">
                 <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                    <i class="icon-globe-alt menu-icon"></i><span class="nav-text">Hóa Đơn</span>
+                    <i class="icon-basket menu-icon"></i><span class="nav-text">Hóa Đơn</span>
                 </a>
                 <ul aria-expanded="false">
                     <li><a href="<?php echo $base_url ?>admin/bill">Danh Sách Hóa Đơn</a></li>
@@ -42,43 +42,43 @@
             <li class="nav-label">Apps</li>
             <li>
                 <a class="has-arrow" href="<?php echo $base_url ?>admin/category/index.php" aria-expanded="false">
-                    <i class="icon-envelope menu-icon"></i> <span class="nav-text">Category</span>
+                    <i class="icon-layers menu-icon"></i> <span class="nav-text">Danh Mục</span>
                 </a>
                 
             </li>
             <li>
                 <a class="has-arrow" href="<?php echo $base_url ?>admin/brand/index.php" aria-expanded="false">
-                    <i class="icon-envelope menu-icon"></i> <span class="nav-text">Brand</span>
+                    <i class="icon-list menu-icon"></i> <span class="nav-text">Hãng</span>
                 </a>
                 
             </li>
             <li>
                 <a class="has-arrow" href="<?php echo $base_url ?>admin/product/index.php" aria-expanded="false">
-                    <i class="icon-envelope menu-icon"></i> <span class="nav-text">Product</span>
+                    <i class="icon-screen-desktop menu-icon"></i> <span class="nav-text">Sản Phẩm</span>
                 </a>
                 
             </li>
             <li>
                 <a class="has-arrow" href="<?php echo $base_url ?>admin/prdchill/index.php" aria-expanded="false">
-                    <i class="icon-envelope menu-icon"></i> <span class="nav-text">PrdChill</span>
+                    <i class="icon-screen-tablet menu-icon"></i> <span class="nav-text">Sản Phẩm Con</span>
                 </a>
                 
             </li>
             <li>
                 <a class="has-arrow" href="<?php echo $base_url ?>admin/descprdchill/index.php" aria-expanded="false">
-                    <i class="icon-envelope menu-icon"></i> <span class="nav-text">descprdchill</span>
+                    <i class="icon-notebook menu-icon"></i> <span class="nav-text">Mô Tả Sản Phẩm</span>
                 </a>
                 
             </li>
             <li>
                 <a class="has-arrow" href="<?php echo $base_url ?>admin/comment/index.php" aria-expanded="false">
-                    <i class="icon-screen-tablet menu-icon"></i><span class="nav-text">Comment</span>
+                    <i class="icon-note menu-icon"></i><span class="nav-text">Bình Luận</span>
                 </a>
                
             </li>
             <li>
                 <a class="has-arrow" href="<?php echo $base_url ?>admin/user/index.php" aria-expanded="false">
-                    <i class="icon-screen-tablet menu-icon"></i><span class="nav-text">User</span>
+                    <i class="icon-emotsmile menu-icon"></i><span class="nav-text">Khách Hàng</span>
                 </a>
                
             </li>

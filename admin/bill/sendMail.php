@@ -91,14 +91,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $mail->isSMTP();                                      // Set mailer to use SMTP
             $mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
             $mail->SMTPAuth = true;                               // Enable SMTP authentication
-            $mail->Username = 'ocsen910@gmail.com';                 // SMTP username
-            $mail->Password = 'tnuitoietlggijje';                           // SMTP password
+            $mail->Username = 'lkgearlk@gmail.com';                 // SMTP username
+            $mail->Password = 'nqpwwzqqkspddath';                           // SMTP password
             $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, 'ssl' also accepted
             $mail->Port = 587;                                    // TCP port to connect to
 
             //Recipients
             $mail->CharSet = 'UTF-8';
-            $mail->setFrom('ocsen910@gmail.com', 'LKGear');                // Gửi mail tới Mail Server
+            $mail->setFrom('lkgearlk@gmail.com', 'LKGear');                // Gửi mail tới Mail Server
             $mail->addAddress($email);               // Gửi mail tới mail người nhận
             //$mail->addReplyTo('ceo.vietpro@gmail.com', 'Information');
             // $mail->addCC('quantri.vietproshop@gmail.com');

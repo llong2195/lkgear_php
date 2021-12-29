@@ -84,9 +84,9 @@ if (isset($_GET['billID'])) {
                                                     <td><?php echo $item['productName'] ?></td>
                                                     <td><?php echo $item['prdchillName'] ?></td>
                                                     <td><?php echo $item['qty'] ?></td>
-                                                    <td><?php echo $item['price'] ?></td>
-                                                    <td><?php echo $item['priceSale'] ?></td>
-                                                    <td><?php echo $item['total'] ?></td>
+                                                    <td><?php echo number_format($item['price']) ?> vnd</td>
+                                                    <td><?php echo number_format($item['priceSale']) ?> vnd</td>
+                                                    <td><?php echo number_format($item['total']) ?> vnd</td>
 
                                                     </td>
                                                     <td>

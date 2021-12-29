@@ -1,13 +1,39 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <?php require_once(__DIR__ .'./layout/header.php'); ?>
+    <?php require_once(__DIR__ . './layout/header.php'); ?>
     <title>Admin</title>
 
 </head>
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    // 1
+    $sql_prd  = "SELECT COUNT(*) as 'count' FROM `prdchill` WHERE 1;";
+    $sql_bill  = "SELECT COUNT(*) as 'count' FROM `bill` WHERE 1;";
+    $sql_bill_chuathanhtoan  = "SELECT COUNT(*) as 'count' FROM `bill` WHERE `status` = 0";
+    $sql_cat  = "SELECT COUNT(*) as 'count' FROM `category` WHERE 1;";
+    $sql_DoanhThu  = "SELECT SUM(total) as 'count' FROM `bill` WHERE MONTH(`bill`.`date`) = MONTH(NOW()) and `status` = 1";
+
+
+    $prd = $db->fetchOne($sql_prd);
+    $bill = $db->fetchOne($sql_bill);
+    $bill_chuathanhtoan = $db->fetchOne($sql_bill_chuathanhtoan);
+    $cat = $db->fetchOne($sql_cat);
+    $DoanhThu = $db->fetchOne($sql_DoanhThu);
+
+    //2
+
+    //3
+    $sql_acc = "SELECT * FROM `account` LIMIT 4";
+    $account = $db->fetchAll($sql_acc);
+    //4
+
+    //5
+}
+
+
+?>
 
 <body>
     <!--*******************
@@ -24,7 +50,7 @@
         Preloader end
     ********************-->
 
-    
+
     <!--**********************************
         Main wrapper start
     ***********************************-->
@@ -33,7 +59,7 @@
         <!--**********************************
             Nav header start
         ***********************************-->
-        <?php require_once(__DIR__ .'/layout/nav_header.php') ?>
+        <?php require_once(__DIR__ . '/layout/nav_header.php') ?>
         <!--**********************************
             Header end ti-comment-alt
         ***********************************-->
@@ -41,7 +67,7 @@
         <!--**********************************
             Sidebar start
         ***********************************-->
-        <?php require_once(__DIR__ .'/layout/side_bar.php') ?>
+        <?php require_once(__DIR__ . '/layout/side_bar.php') ?>
         <!--**********************************
             Sidebar end
         ***********************************-->
@@ -56,52 +82,52 @@
                     <div class="col-lg-3 col-sm-6">
                         <div class="card gradient-1">
                             <div class="card-body">
-                                <h3 class="card-title text-white">Products Sold</h3>
+                                <h3 class="card-title text-white">Sản Phẩm</h3>
                                 <div class="d-inline-block">
-                                    <h2 class="text-white">4565</h2>
-                                    <p class="text-white mb-0">Jan - March 2019</p>
+                                    <h2 class="text-white"><?php echo $bill['count'] ?></h2>
+                                    <p class="text-white mb-0"></p>
                                 </div>
-                                <span class="float-right display-5 opacity-5"><i class="fa fa-shopping-cart"></i></span>
+                                <span class="float-right display-5 opacity-5"><i class="fa fa-laptop"></i></span>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3 col-sm-6">
                         <div class="card gradient-2">
                             <div class="card-body">
-                                <h3 class="card-title text-white">Net Profit</h3>
+                                <h3 class="card-title text-white">Hóa Đơn</h3>
                                 <div class="d-inline-block">
-                                    <h2 class="text-white">$ 8541</h2>
-                                    <p class="text-white mb-0">Jan - March 2019</p>
+                                    <h2 class="text-white"><?php echo $bill['count'] ?></h2>
+                                    <p class="text-white mb-0">Chưa Thanh Toán <?php echo $bill_chuathanhtoan['count'] ?></p>
                                 </div>
-                                <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span>
+                                <span class="float-right display-5 opacity-5"><i class="fa fa-shopping-cart"></i></span>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3 col-sm-6">
                         <div class="card gradient-3">
                             <div class="card-body">
-                                <h3 class="card-title text-white">New Customers</h3>
+                                <h3 class="card-title text-white">Doanh Thu Tháng</h3>
                                 <div class="d-inline-block">
-                                    <h2 class="text-white">4565</h2>
-                                    <p class="text-white mb-0">Jan - March 2019</p>
+                                    <h2 class="text-white"><?php echo number_format($DoanhThu['count']) ?></h2>
+                                    <p class="text-white mb-0">VND</p>
                                 </div>
-                                <span class="float-right display-5 opacity-5"><i class="fa fa-users"></i></span>
+                                <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3 col-sm-6">
                         <div class="card gradient-4">
                             <div class="card-body">
-                                <h3 class="card-title text-white">Customer Satisfaction</h3>
+                                <h3 class="card-title text-white">Danh Mục</h3>
                                 <div class="d-inline-block">
-                                    <h2 class="text-white">99%</h2>
-                                    <p class="text-white mb-0">Jan - March 2019</p>
+                                    <h2 class="text-white"><?php echo $cat['count'] ?></h2>
                                 </div>
                                 <span class="float-right display-5 opacity-5"><i class="fa fa-heart"></i></span>
                             </div>
                         </div>
                     </div>
                 </div>
+
 
                 <div class="row">
                     <div class="col-lg-12">
@@ -110,16 +136,12 @@
                                 <div class="card">
                                     <div class="card-body pb-0 d-flex justify-content-between">
                                         <div>
-                                            <h4 class="mb-1">Product Sales</h4>
-                                            <p>Total Earnings of the Month</p>
-                                            <h3 class="m-0">$ 12,555</h3>
+                                            <h4 class="mb-1">Doanh Thu Theo Tháng</h4>
+                                            <p>Tính theo doanh thu cao nhất</p>
+                                            <h3 class="m-0">@ViewBag.Max</h3>
                                         </div>
                                         <div>
-                                            <ul>
-                                                <li class="d-inline-block mr-3"><a class="text-dark" href="#">Day</a></li>
-                                                <li class="d-inline-block mr-3"><a class="text-dark" href="#">Week</a></li>
-                                                <li class="d-inline-block"><a class="text-dark" href="#">Month</a></li>
-                                            </ul>
+                                            
                                         </div>
                                     </div>
                                     <div class="chart-wrapper">
@@ -128,17 +150,9 @@
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between">
                                             <div class="w-100 mr-2">
-                                                <h6>Pixel 2</h6>
-                                                <div class="progress" style="height: 6px">
-                                                    <div class="progress-bar bg-danger" style="width: 40%"></div>
-                                                </div>
+                                                <h6>Doanh Thu</h6>
                                             </div>
-                                            <div class="ml-2 w-100">
-                                                <h6>iPhone X</h6>
-                                                <div class="progress" style="height: 6px">
-                                                    <div class="progress-bar bg-primary" style="width: 80%"></div>
-                                                </div>
-                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -147,107 +161,49 @@
                     </div>
                 </div>
 
-                
 
-                <div class="row" style="display: none;">
-                        <div class="col-lg-6 col-md-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">Order Summary</h4>
-                                    <div id="morris-bar-chart"></div>
+
+
+                <div class="row">
+
+                    <!--  -->
+                    <div class="col-lg-12 col-md-12">
+
+                        <div class="card">
+                            <div class="chart-wrapper mb-4">
+                                <div class="px-4 pt-4 d-flex justify-content-between">
+                                    <div>
+                                        <h4>Sales Activities</h4>
+                                        <p>Last 6 Month</p>
+                                    </div>
+                                    <div>
+                                        <span><i class="fa fa-caret-up text-success"></i></span>
+                                        <h4 class="d-inline-block text-success">720</h4>
+                                        <p class=" text-danger">+120.5(5.0%)</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <canvas id="chart_widget_3"></canvas>
                                 </div>
                             </div>
-                            
-                        </div>    
-                        <div class="col-lg-3 col-md-6">
-                            <div class="card card-widget">
-                                <div class="card-body">
-                                    <h5 class="text-muted">Order Overview </h5>
-                                    <h2 class="mt-4">5680</h2>
-                                    <span>Total Revenue</span>
-                                    <div class="mt-4">
-                                        <h4>30</h4>
-                                        <h6>Online Order <span class="pull-right">30%</span></h6>
-                                        <div class="progress mb-3" style="height: 7px">
-                                            <div class="progress-bar bg-primary" style="width: 30%;" role="progressbar"><span class="sr-only">30% Order</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="mt-4">
-                                        <h4>50</h4>
-                                        <h6 class="m-t-10 text-muted">Offline Order <span class="pull-right">50%</span></h6>
-                                        <div class="progress mb-3" style="height: 7px">
-                                            <div class="progress-bar bg-success" style="width: 50%;" role="progressbar"><span class="sr-only">50% Order</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="mt-4">
-                                        <h4>20</h4>
-                                        <h6 class="m-t-10 text-muted">Cash On Develery <span class="pull-right">20%</span></h6>
-                                        <div class="progress mb-3" style="height: 7px">
-                                            <div class="progress-bar bg-warning" style="width: 20%;" role="progressbar"><span class="sr-only">20% Order</span>
-                                            </div>
-                                        </div>
+                            <div class="card-body border-top pt-4">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <ul>
+                                            <li>5% Negative Feedback</li>
+                                            <li>95% Positive Feedback</li>
+                                        </ul>
+
                                     </div>
                                 </div>
                             </div>
-                            
-                        </div>
-                        
-                    </div>
-                
-                
-                    <div class="row">
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="text-center">
-                                    <img src="./images/users/8.jpg" class="rounded-circle" alt="">
-                                    <h5 class="mt-3 mb-1">Ana Liem</h5>
-                                    <p class="m-0">Senior Manager</p>
-                                    <!-- <a href="javascript:void()" class="btn btn-sm btn-warning">Send Message</a> -->
-                                </div>
-                            </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="text-center">
-                                    <img src="./images/users/5.jpg" class="rounded-circle" alt="">
-                                    <h5 class="mt-3 mb-1">John Abraham</h5>
-                                    <p class="m-0">Store Manager</p>
-                                    <!-- <a href="javascript:void()" class="btn btn-sm btn-warning">Send Message</a> -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="text-center">
-                                    <img src="./images/users/7.jpg" class="rounded-circle" alt="">
-                                    <h5 class="mt-3 mb-1">John Doe</h5>
-                                    <p class="m-0">Sales Man</p>
-                                    <!-- <a href="javascript:void()" class="btn btn-sm btn-warning">Send Message</a> -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="text-center">
-                                    <img src="./images/users/1.jpg" class="rounded-circle" alt="">
-                                    <h5 class="mt-3 mb-1">Mehedi Titas</h5>
-                                    <p class="m-0">Online Marketer</p>
-                                    <!-- <a href="javascript:void()" class="btn btn-sm btn-warning">Send Message</a> -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
 
                 </div>
+
+
 
                 <div class="row">
                     <div class="col-lg-12">
@@ -376,213 +332,104 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>                        
-                    </div>
-                </div>
-
-                <div class="row" style="display: none;">
-                    <div class="col-xl-3 col-lg-6 col-sm-6 col-xxl-6">
-
-                        <div class="card">
-                            <div class="chart-wrapper mb-4">
-                                <div class="px-4 pt-4 d-flex justify-content-between">
-                                    <div>
-                                        <h4>Sales Activities</h4>
-                                        <p>Last 6 Month</p>
-                                    </div>
-                                    <div>
-                                        <span><i class="fa fa-caret-up text-success"></i></span>
-                                        <h4 class="d-inline-block text-success">720</h4>
-                                        <p class=" text-danger">+120.5(5.0%)</p>
-                                    </div>
-                                </div>
-                                <div>
-                                        <canvas id="chart_widget_3"></canvas>
-                                </div>
-                            </div>
-                            <div class="card-body border-top pt-4">
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <ul>
-                                            <li>5% Negative Feedback</li>
-                                            <li>95% Positive Feedback</li>
-                                        </ul>
-                                        <div>
-                                            <h5>Customer Feedback</h5>
-                                            <h3>385749</h3>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div id="chart_widget_3_1"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-6 col-sm-6 col-xxl-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Activity</h4>
-                                <div id="activity">
-                                    <div class="media border-bottom-1 pt-3 pb-3">
-                                        <img width="35" src="./images/avatar/1.jpg" class="mr-3 rounded-circle">
-                                        <div class="media-body">
-                                            <h5>Received New Order</h5>
-                                            <p class="mb-0">I shared this on my fb wall a few months back,</p>
-                                        </div><span class="text-muted ">April 24, 2018</span>
-                                    </div>
-                                    <div class="media border-bottom-1 pt-3 pb-3">
-                                        <img width="35" src="./images/avatar/2.jpg" class="mr-3 rounded-circle">
-                                        <div class="media-body">
-                                            <h5>iPhone develered</h5>
-                                            <p class="mb-0">I shared this on my fb wall a few months back,</p>
-                                        </div><span class="text-muted ">April 24, 2018</span>
-                                    </div>
-                                    <div class="media border-bottom-1 pt-3 pb-3">
-                                        <img width="35" src="./images/avatar/2.jpg" class="mr-3 rounded-circle">
-                                        <div class="media-body">
-                                            <h5>3 Order Pending</h5>
-                                            <p class="mb-0">I shared this on my fb wall a few months back,</p>
-                                        </div><span class="text-muted ">April 24, 2018</span>
-                                    </div>
-                                    <div class="media border-bottom-1 pt-3 pb-3">
-                                        <img width="35" src="./images/avatar/2.jpg" class="mr-3 rounded-circle">
-                                        <div class="media-body">
-                                            <h5>Join new Manager</h5>
-                                            <p class="mb-0">I shared this on my fb wall a few months back,</p>
-                                        </div><span class="text-muted ">April 24, 2018</span>
-                                    </div>
-                                    <div class="media border-bottom-1 pt-3 pb-3">
-                                        <img width="35" src="./images/avatar/2.jpg" class="mr-3 rounded-circle">
-                                        <div class="media-body">
-                                            <h5>Branch open 5 min Late</h5>
-                                            <p class="mb-0">I shared this on my fb wall a few months back,</p>
-                                        </div><span class="text-muted ">April 24, 2018</span>
-                                    </div>
-                                    <div class="media border-bottom-1 pt-3 pb-3">
-                                        <img width="35" src="./images/avatar/2.jpg" class="mr-3 rounded-circle">
-                                        <div class="media-body">
-                                            <h5>New support ticket received</h5>
-                                            <p class="mb-0">I shared this on my fb wall a few months back,</p>
-                                        </div><span class="text-muted ">April 24, 2018</span>
-                                    </div>
-                                    <div class="media pt-3 pb-3">
-                                        <img width="35" src="./images/avatar/3.jpg" class="mr-3 rounded-circle">
-                                        <div class="media-body">
-                                            <h5>Facebook Post 30 Comments</h5>
-                                            <p class="mb-0">I shared this on my fb wall a few months back,</p>
-                                        </div><span class="text-muted ">April 24, 2018</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-12 col-sm-12 col-xxl-12">
-                        <div class="card">
-                            <div class="card-body">
-                                    <h4 class="card-title mb-0">Store Location</h4>
-                                <div id="world-map" style="height: 470px;"></div>
-                            </div>        
                         </div>
                     </div>
                 </div>
 
-                
-                <!-- fb / insta /  -->
+
+                <div class="row justify-content-center">
+                    <?php foreach ($account as $item) : ?>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="text-center">
+                                        <img src="<?php echo $base_url . $item['avatarImg'] ?>" width="100" height="100" class="rounded-circle" alt="">
+                                        <h5 class="mt-3 mb-1"><?php echo $item['displayName'] ?></h5>
+                                        <p class="m-0">email</p>
+                                        <!-- <a href="javascript:void()" class="btn btn-sm btn-warning">Send Message</a> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach ?>
+
+                </div>
+
+
                 <div class="row">
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="card">
-                                <div class="social-graph-wrapper widget-facebook">
-                                    <span class="s-icon"><i class="fa fa-facebook"></i></span>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 border-right">
-                                        <div class="pt-3 pb-3 pl-0 pr-0 text-center">
-                                            <h4 class="m-1">89k</h4>
-                                            <p class="m-0">Friends</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="pt-3 pb-3 pl-0 pr-0 text-center">
-                                            <h4 class="m-1">119k</h4>
-                                            <p class="m-0">Followers</p>
-                                        </div>
-                                    </div>
-                                </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <div class="card">
+                            <div class="social-graph-wrapper widget-facebook">
+                                <span class="s-icon"><i class="fa fa-facebook"></i></span>
                             </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="card">
-                                <div class="social-graph-wrapper widget-linkedin">
-                                    <span class="s-icon"><i class="fa fa-linkedin"></i></span>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 border-right">
-                                        <div class="pt-3 pb-3 pl-0 pr-0 text-center">
-                                            <h4 class="m-1">89k</h4>
-                                            <p class="m-0">Friends</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="pt-3 pb-3 pl-0 pr-0 text-center">
-                                            <h4 class="m-1">119k</h4>
-                                            <p class="m-0">Followers</p>
-                                        </div>
+                            <div class="row">
+                                <div class="col-6 border-right">
+                                    <div class="pt-3 pb-3 pl-0 pr-0 text-center">
+                                        <h4 class="m-1">89k</h4>
+                                        <p class="m-0">Friends</p>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="card">
-                                <div class="social-graph-wrapper widget-googleplus">
-                                    <span class="s-icon"><i class="fa fa-google-plus"></i></span>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 border-right">
-                                        <div class="pt-3 pb-3 pl-0 pr-0 text-center">
-                                            <h4 class="m-1">89k</h4>
-                                            <p class="m-0">Friends</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="pt-3 pb-3 pl-0 pr-0 text-center">
-                                            <h4 class="m-1">119k</h4>
-                                            <p class="m-0">Followers</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="card">
-                                <div class="social-graph-wrapper widget-twitter">
-                                    <span class="s-icon"><i class="fa fa-twitter"></i></span>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 border-right">
-                                        <div class="pt-3 pb-3 pl-0 pr-0 text-center">
-                                            <h4 class="m-1">89k</h4>
-                                            <p class="m-0">Friends</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="pt-3 pb-3 pl-0 pr-0 text-center">
-                                            <h4 class="m-1">119k</h4>
-                                            <p class="m-0">Followers</p>
-                                        </div>
+                                <div class="col-6">
+                                    <div class="pt-3 pb-3 pl-0 pr-0 text-center">
+                                        <h4 class="m-1">119k</h4>
+                                        <p class="m-0">Followers</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-lg-4 col-sm-6">
+                        <div class="card">
+                            <div class="social-graph-wrapper widget-googleplus">
+                                <span class="s-icon"><i class="fa fa-instagram"></i></span>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 border-right">
+                                    <div class="pt-3 pb-3 pl-0 pr-0 text-center">
+                                        <h4 class="m-1">89k</h4>
+                                        <p class="m-0">Friends</p>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="pt-3 pb-3 pl-0 pr-0 text-center">
+                                        <h4 class="m-1">119k</h4>
+                                        <p class="m-0">Followers</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <div class="card">
+                            <div class="social-graph-wrapper widget-twitter">
+                                <span class="s-icon"><i class="fa fa-twitter"></i></span>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 border-right">
+                                    <div class="pt-3 pb-3 pl-0 pr-0 text-center">
+                                        <h4 class="m-1">89k</h4>
+                                        <p class="m-0">Friends</p>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="pt-3 pb-3 pl-0 pr-0 text-center">
+                                        <h4 class="m-1">119k</h4>
+                                        <p class="m-0">Followers</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!-- #/ container -->
         </div>
         <!--**********************************
             Content body end
         ***********************************-->
-        
-        
+
+
         <!--**********************************
             Footer start
         ***********************************-->
@@ -602,8 +449,245 @@
     <!--**********************************
         Scripts
     ***********************************-->
-    <?php require_once(__DIR__ .'/layout/script.php') ?>
+    <?php require_once(__DIR__ . '/layout/script.php') ?>
 
 </body>
+
+<!-- Chartjs -->
+<script src=" <?php echo $base_url ?>public/admin/plugins/chart.js/Chart.bundle.min.js"></script>
+<!-- Circle progress -->
+<script src=" <?php echo $base_url ?>public/admin/plugins/circle-progress/circle-progress.min.js"></script>
+<!-- Datamap -->
+<script src=" <?php echo $base_url ?>public/admin/plugins/d3v3/index.js"></script>
+<script src=" <?php echo $base_url ?>public/admin/plugins/topojson/topojson.min.js"></script>
+<script src=" <?php echo $base_url ?>public/admin/plugins/datamaps/datamaps.world.min.js"></script>
+<!-- Morrisjs -->
+<script src=" <?php echo $base_url ?>public/admin/plugins/raphael/raphael.min.js"></script>
+<script src=" <?php echo $base_url ?>public/admin/plugins/morris/morris.min.js"></script>
+<!-- Pignose Calender -->
+<script src=" <?php echo $base_url ?>public/admin/plugins/moment/moment.min.js"></script>
+<script src=" <?php echo $base_url ?>public/admin/plugins/pg-calendar/js/pignose.calendar.min.js"></script>
+<!-- ChartistJS -->
+<script src=" <?php echo $base_url ?>public/admin/plugins/chartist/js/chartist.min.js"></script>
+<script src=" <?php echo $base_url ?>public/admin/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
+
+
+
+<script>
+    (function($) {
+        "use strict"
+
+
+        $('#todo_list').slimscroll({
+            position: "right",
+            size: "5px",
+            height: "250px",
+            color: "transparent"
+        });
+
+        $('#activity').slimscroll({
+            position: "right",
+            size: "5px",
+            height: "390px",
+            color: "transparent"
+        });
+
+
+
+
+
+    })(jQuery);
+
+
+
+    (function($) {
+        "use strict"
+
+        let ctx = document.getElementById("chart_widget_2");
+        ctx.height = 280;
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ["2010", "2011", "2012", "2013", "2014", "2015", "2016"],
+                type: 'line',
+                defaultFontFamily: 'Montserrat',
+                datasets: [{
+                    data: [0, 15, 57, 12, 85, 10, 50],
+                    label: "iPhone X",
+                    backgroundColor: '#847DFA',
+                    borderColor: '#847DFA',
+                    borderWidth: 0.5,
+                    pointStyle: 'circle',
+                    pointRadius: 5,
+                    pointBorderColor: 'transparent',
+                    pointBackgroundColor: '#847DFA',
+                }, {
+                    label: "Pixel 2",
+                    data: [0, 30, 5, 53, 15, 55, 0],
+                    backgroundColor: '#F196B0',
+                    borderColor: '#F196B0',
+                    borderWidth: 0.5,
+                    pointStyle: 'circle',
+                    pointRadius: 5,
+                    pointBorderColor: 'transparent',
+                    pointBackgroundColor: '#F196B0',
+                }]
+            },
+            options: {
+                responsive: !0,
+                maintainAspectRatio: false,
+                tooltips: {
+                    mode: 'index',
+                    titleFontSize: 12,
+                    titleFontColor: '#000',
+                    bodyFontColor: '#000',
+                    backgroundColor: '#fff',
+                    titleFontFamily: 'Montserrat',
+                    bodyFontFamily: 'Montserrat',
+                    cornerRadius: 3,
+                    intersect: false,
+                },
+                legend: {
+                    display: false,
+                    position: 'top',
+                    labels: {
+                        usePointStyle: true,
+                        fontFamily: 'Montserrat',
+                    },
+
+
+                },
+                scales: {
+                    xAxes: [{
+                        display: false,
+                        gridLines: {
+                            display: false,
+                            drawBorder: false
+                        },
+                        scaleLabel: {
+                            display: false,
+                            labelString: 'Month'
+                        }
+                    }],
+                    yAxes: [{
+                        display: false,
+                        gridLines: {
+                            display: false,
+                            drawBorder: false
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Value'
+                        }
+                    }]
+                },
+                title: {
+                    display: false,
+                }
+            }
+        });
+
+
+
+
+
+    })(jQuery);
+
+    (function($) {
+        "use strict"
+
+        let ctx = document.getElementById("chart_widget_3");
+        ctx.height = 130;
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+                type: 'line',
+                defaultFontFamily: 'Montserrat',
+                datasets: [{
+                        data: [0, 15, 57, 12, 85, 10],
+                        label: "iPhone X",
+                        backgroundColor: 'transparent',
+                        borderColor: '#847DFA',
+                        borderWidth: 2,
+                        pointStyle: 'circle',
+                        pointRadius: 5,
+                        pointBorderColor: '#847DFA',
+                        pointBackgroundColor: '#fff',
+                    },
+                    {
+                        data: [0, 2, 50, 12, 11, 10],
+                        label: "VCL X",
+                        backgroundColor: 'transparent',
+                        borderColor: '#F196B0',
+                        borderWidth: 2,
+                        pointStyle: 'circle',
+                        pointRadius: 5,
+                        pointBorderColor: '#F196B0',
+                        pointBackgroundColor: '#fff',
+                    }
+                ]
+            },
+            options: {
+                responsive: !0,
+                maintainAspectRatio: true,
+                tooltips: {
+                    mode: 'index',
+                    titleFontSize: 12,
+                    titleFontColor: '#fff',
+                    bodyFontColor: '#fff',
+                    backgroundColor: '#000',
+                    titleFontFamily: 'Montserrat',
+                    bodyFontFamily: 'Montserrat',
+                    cornerRadius: 3,
+                    intersect: false,
+                },
+                legend: {
+                    display: false,
+                    position: 'top',
+                    labels: {
+                        usePointStyle: true,
+                        fontFamily: 'Montserrat',
+                    },
+
+
+                },
+                scales: {
+                    xAxes: [{
+                        display: false,
+                        gridLines: {
+                            display: false,
+                            drawBorder: false
+                        },
+                        scaleLabel: {
+                            display: false,
+                            labelString: 'Month'
+                        }
+                    }],
+                    yAxes: [{
+                        display: false,
+                        gridLines: {
+                            display: false,
+                            drawBorder: false
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Value'
+                        }
+                    }]
+                },
+                title: {
+                    display: false,
+                }
+            }
+        });
+
+
+
+
+
+    })(jQuery);
+</script>
+
 
 </html>

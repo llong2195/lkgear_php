@@ -61,10 +61,24 @@
             <div class="col-lg-3" style="margin-top:40px">
                 <div class="header__cart">
                     <ul>
-                        <li>
+                    <li>
+                        <?php
+                            if(isset($_SESSION['user'])):?>
+
                             <div class="header__top__right__auth">
-                                <a href="./login.php"><i class="fa fa-user"></i> Login</a>
+                            <a href="<?php echo $base_url ?>/logout.php"><i class="fa fa-user"></i><?php echo $_SESSION['user']?></a> </a>
                             </div>
+                            
+                        <?php endif ?> 
+
+                        <?php
+                            if(!isset($_SESSION['user'])):?>
+
+                            <div class="header__top__right__auth">
+                            <a href="./login.php"><i class="fa fa-user"></i>Login</a> </a>
+                            </div>
+                            
+                        <?php endif ?> 
                         </li>
 
                         <li><a href="./cart.php"><i class="fa fa-shopping-bag"></i> <span><?php  echo $_SESSION['qty']?></span></a></li>

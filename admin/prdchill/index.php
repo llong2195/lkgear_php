@@ -87,8 +87,8 @@
                                                 <td><?php echo $item['slug'] ?></td>
                                                 <td><?php echo $item['detail'] ?></td>
                                                 <td><?php echo $item['brandName'] ?></td>
-                                                <td><?php echo $item['price'] ?></td>
-                                                <td><?php echo $item['priceSale'] ?></td>
+                                                <td><?php echo number_format($item['price']) ?>vnd</td>
+                                                <td><?php echo number_format($item['priceSale']) ?>vnd</td>
                                                 <td><?php echo $item['qty'] ?></td>
 
                                                 <td><span class="label <?php echo ($item['active']==1)?'gradient-2' :'gradient-1' ?>  btn-rounded"><?php echo ($item['active']==1)?'Hiển Thị' :'Ẩn' ?></span>

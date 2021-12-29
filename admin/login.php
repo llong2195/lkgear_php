@@ -9,7 +9,7 @@
     else{
         if($_SERVER["REQUEST_METHOD"] == "POST"){
             if(empty($_POST["userName"]) || empty($_POST['password'])){
-                echo "<script>alert('KO dc de trong')</script>";
+                echo "<script>alert('Không được bỏ trống')</script>";
             }else{
                 $userName  = $_POST["userName"];
                 $password  = md5($_POST["password"]);
@@ -20,6 +20,7 @@
                 if($rs > 0){
                     echo "Đăng Nhập Thành Công";
                     $_SESSION['login'] = $rs['id'] ."-". $rs['userName'];
+                    $_SESSION['avt_Admin'] = $rs['avatarImg'];
                     header("location:./index.php");
                 }else{
                     echo "Đăng Nhập Thất Bại";
