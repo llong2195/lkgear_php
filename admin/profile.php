@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <?php require_once(__DIR__ . './layout/header.php'); ?>
+    <?php require_once(__DIR__ . '/layout/header.php'); ?>
     <title>Admin - profile</title>
 
 </head>
@@ -84,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <!--**********************************
             Nav header start
         ***********************************-->
-        <?php require_once(__DIR__ . './layout/nav_header.php') ?>
+        <?php require_once(__DIR__ . '/layout/nav_header.php') ?>
         <!--**********************************
             Header end ti-comment-alt
         ***********************************-->
@@ -92,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <!--**********************************
             Sidebar start
         ***********************************-->
-        <?php require_once(__DIR__ . './layout/side_bar.php') ?>
+        <?php require_once(__DIR__ . '/layout/side_bar.php') ?>
         <!--**********************************
             Sidebar end
         ***********************************-->
@@ -196,7 +196,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!--**********************************
         Scripts
     ***********************************-->
-    <?php require_once(__DIR__ . './layout/script.php') ?>
+    <?php require_once(__DIR__ . '/layout/script.php') ?>
 
 </body>
 

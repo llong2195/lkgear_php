@@ -2,7 +2,7 @@
 <html lang="vi">
 
 <head>
-    <?php require_once(__DIR__ . './layout/header.php') ?>
+    <?php require_once(__DIR__ . '/layout/header.php') ?>
 </head>
 <?php
 if (isset($_GET) && isset($_GET['name'])) {
@@ -50,8 +50,8 @@ if (isset($_GET) && isset($_GET['name'])) {
     </div>
 
     <!-- Humberger Begin -->
-    <?php require_once(__DIR__ . './layout/nav_header.php') ?>
-    <?php require_once(__DIR__ . './layout/menu.php') ?>
+    <?php require_once(__DIR__ . '/layout/nav_header.php') ?>
+    <?php require_once(__DIR__ . '/layout/menu.php') ?>
     <!-- Hero Section End -->
 
 
@@ -122,11 +122,11 @@ if (isset($_GET) && isset($_GET['name'])) {
     <!-- Product Section End -->
 
     <!-- Footer Section Begin -->
-    <?php require_once(__DIR__ . './layout/footer.php') ?>
+    <?php require_once(__DIR__ . '/layout/footer.php') ?>
     <!-- Footer Section End -->
 
     <!-- Js Plugins -->
-    <?php require_once(__DIR__ . './layout/script.php') ?>
+    <?php require_once(__DIR__ . '/layout/script.php') ?>
 
 
 

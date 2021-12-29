@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__ . './../lib/autoload.php');
+require_once(__DIR__ . '/../lib/autoload.php');
 include "./PHPMailer-master/src/PHPMailer.php";
 include "./PHPMailer-master/src/Exception.php";
 include "./PHPMailer-master/src/OAuth.php";

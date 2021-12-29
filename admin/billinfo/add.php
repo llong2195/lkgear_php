@@ -157,7 +157,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         Scripts
     ***********************************-->
     <?php require_once(__DIR__ . '/../layout/script.php') ?>
-    <script src="./../../public/ckeditor/ckeditor.js"></script>
     <script >
         const prdchill = <?php echo json_encode($prdchill) ?>;
         console.log(prdchill);

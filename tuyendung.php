@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
-<?php require_once('./lib/autoload.php') ?>
+<?php require_once(__DIR__ . '/lib/autoload.php') ?>
 
 <head>
     <meta charset="UTF-8">

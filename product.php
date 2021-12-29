@@ -2,7 +2,7 @@
 <html lang="vi">
 
 <head>
-    <?php require_once(__DIR__ . './layout/header.php') ?>
+    <?php require_once(__DIR__ . '/layout/header.php') ?>
 </head>
 <?php
 $param = [];
@@ -70,8 +70,8 @@ $cmtPrd = $db->fetchAll($sql_cmt);
     </div>
 
     <!-- Humberger Begin -->
-    <?php require_once(__DIR__ . './layout/nav_header.php') ?>
-    <?php require_once(__DIR__ . './layout/menu.php') ?>
+    <?php require_once(__DIR__ . '/layout/nav_header.php') ?>
+    <?php require_once(__DIR__ . '/layout/menu.php') ?>
     <!-- Humberger End -->
 
     <!-- Product Details Section Begin -->
@@ -257,11 +257,11 @@ $cmtPrd = $db->fetchAll($sql_cmt);
     <!-- Related Product Section End -->
 
     <!-- Footer Section Begin -->
-    <?php require_once(__DIR__ . './layout/footer.php') ?>
+    <?php require_once(__DIR__ . '/layout/footer.php') ?>
     <!-- Footer Section End -->
 
     <!-- Js Plugins -->
-    <?php require_once(__DIR__ . './layout/script.php') ?>
+    <?php require_once(__DIR__ . '/layout/script.php') ?>
 
     <script >
 

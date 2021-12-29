@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<?php require_once(__DIR__ . './layout/header.php') ?>
+<?php require_once(__DIR__ . '/layout/header.php') ?>
 <link rel="stylesheet" href="./public/site/css/Login.css">
 </head>
 

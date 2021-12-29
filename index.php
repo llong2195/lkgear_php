@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="vi">
-<?php require_once('./lib/autoload.php'); ?>
+<?php require_once(__DIR__ . '/lib/autoload.php'); ?>
 
 <head>
-    <?php require_once(__DIR__ . './layout/header.php') ?>
+    <?php require_once(__DIR__ . '/layout/header.php') ?>
 </head>
 
 <body>
@@ -13,7 +13,7 @@
     </div>
 
     <!-- Humberger Begin -->
-    <?php require_once(__DIR__ . './layout/nav_header.php') ?>
+    <?php require_once(__DIR__ . '/layout/nav_header.php') ?>
 
     <!-- Hero Section End -->
     <?php
@@ -293,11 +293,11 @@
     <!-- Blog Section End -->
 
     <!-- Footer Section Begin -->
-    <?php require_once(__DIR__ . './layout/footer.php') ?>
+    <?php require_once(__DIR__ . '/layout/footer.php') ?>
     <!-- Footer Section End -->
 
     <!-- Js Plugins -->
-    <?php require_once(__DIR__ . './layout/script.php') ?>
+    <?php require_once(__DIR__ . '/layout/script.php') ?>
 
 </body>
 

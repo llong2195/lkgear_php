@@ -2,7 +2,7 @@
 <html lang="vi">
 
 <head>
-    <?php require_once(__DIR__ . './layout/header.php') ?>
+    <?php require_once(__DIR__ . '/layout/header.php') ?>
 </head>
 <?php
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -33,8 +33,8 @@
     </div>
 
     <!-- Humberger Begin -->
-    <?php require_once(__DIR__ . './layout/nav_header.php') ?>
-    <?php require_once(__DIR__ . './layout/menu.php') ?>
+    <?php require_once(__DIR__ . '/layout/nav_header.php') ?>
+    <?php require_once(__DIR__ . '/layout/menu.php') ?>
     <!-- Hero Section End -->
 
     <!-- Breadcrumb Section Begin -->
@@ -138,11 +138,11 @@
     <!-- Contact Form End -->
 
     <!-- Footer Section Begin -->
-    <?php require_once(__DIR__ . './layout/footer.php') ?>
+    <?php require_once(__DIR__ . '/layout/footer.php') ?>
     <!-- Footer Section End -->
 
     <!-- Js Plugins -->
-    <?php require_once(__DIR__ . './layout/script.php') ?>
+    <?php require_once(__DIR__ . '/layout/script.php') ?>
 
 
 
