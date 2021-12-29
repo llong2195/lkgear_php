@@ -8,7 +8,7 @@
 </head>
 <?php
 
-    $sql = "select bill.*, account.displayName as `accName` from bill,  account where  bill.accID = account.id";
+    $sql = "select bill.*, account.displayName as `accName` from bill,  account where  bill.accID = account.id order by bill.id";
     $bill = $db->fetchAll($sql);
 ?>
 <body>

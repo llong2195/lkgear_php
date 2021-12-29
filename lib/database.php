@@ -106,5 +106,11 @@
             mysqli_query($this->link,$sql) or die("Lỗi truy vấn delete--------".mysqli_error($this->link));
             return mysqli_affected_rows($this->link);
         }
+
+        public function query($sql)
+        {
+            mysqli_query($this->link,$sql) or die("Lỗi truy vấn --------".mysqli_error($this->link));
+            return mysqli_affected_rows($this->link);
+        }
     }
 ?>

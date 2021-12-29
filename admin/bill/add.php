@@ -16,10 +16,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             "sdt" => $_POST['sdt'] ? $_POST['sdt'] : '',
             "email" => $_POST['email'] ? $_POST['email'] : '',
             "addr" => $_POST['addr'] ? $_POST['addr'] : '',
+            "date" => date("Y-m-d"),
             "accID" => $_POST['accID'] ? $_POST['accID'] : '',
         ];
     $insert = $db->insert('bill', $data);
     if ($insert > 0) {
+        
+        $sql_update_bill = "UPDATE `bill` 
+                            SET `qty`= (SELECT sum(qty) FROM billinfor WHERE billinfor.billID = $insert)
+                                `total` = (SELECT sum(total) FROM billinfor WHERE billinfor.billID = $insert)
+                            WHERE `id` = $insert";
+        $update = $db->query($sql_update_bill);
+
         $_SESSION['error'] = "Thêm thành công";
         header('Location: ./index.php');
     } else {
@@ -102,7 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label>Địa Chỉ</label>
-                                            <input type="number" name="addr" required class="form-control">
+                                            <input type="text" name="addr" required class="form-control">
                                         </div>
 
                                     </div>

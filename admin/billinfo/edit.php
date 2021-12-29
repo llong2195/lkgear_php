@@ -31,6 +31,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ];
     $update = $db->update('billinfor', $data, array('billID' => $billID, 'prdChillID' => $prdChillID));
     if ($update > 0) {
+        $sql_update_bill = "UPDATE `bill` 
+                            SET `qty`= (SELECT sum(billinfor.qty) FROM billinfor WHERE billinfor.billID = $billID),
+                                `total` = (SELECT sum(billinfor.total) FROM billinfor WHERE billinfor.billID = $billID)
+                            WHERE `id` = $billID";
+        $update = $db->query($sql_update_bill);
+
         $_SESSION['error'] = "Thêm thành công";
         header('Location: ./index.php?billID='.$billID);
     } else {

@@ -16,6 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             "content" => $_POST['content'] ? $_POST['content'] : '',
             "name" => $_POST['name'] ? $_POST['name'] : '',
             "email" => $_POST['email'] ? $_POST['email'] : '',
+            "time" => date("Y-m-d"),
             "respone" => $_POST['respone'] ? $_POST['respone'] : '',
             "rate" => $_POST['rate'] ? $_POST['rate'] : '',
             "active" => $_POST['active'] ? $_POST['active'] : '',

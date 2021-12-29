@@ -23,6 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         [
             "prdID" => $_POST['prdID'] ? $_POST['prdID'] : '',
             "content" => $_POST['content'] ? $_POST['content'] : '',
+            "time" => date("Y-m-d"),
             "name" => $_POST['name'] ? $_POST['name'] : '',
             "email" => $_POST['email'] ? $_POST['email'] : '',
             "rate" => $_POST['rate'] ? $_POST['rate'] : '',

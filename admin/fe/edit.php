@@ -118,8 +118,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     </div>
                                     <div class="form-group">
                                         <label>Mô Tả</label>
-                                        <textarea class="form-control" name="description" id="editor1" rows="10" cols="80">
-                                            <?php echo $fe['description'] ?>
+                                        <textarea class="form-control" name="description" id="editor1" rows="10" cols="80"><?php echo $fe['description'] ?>
                                         </textarea>
                                         <script>
                                             // Replace the <textarea id="editor1"> with a CKEditor 4

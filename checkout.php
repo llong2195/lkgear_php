@@ -12,6 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         "sdt" => $_POST['sdt'] ? $_POST['sdt'] : "",
         "email" => $_POST['email'] ? $_POST['email'] : "",
         "addr" => $_POST['addr'] ? $_POST['addr'] : "",
+        "date" => date("Y-m-d"),
         "qty" => $_POST['qty'] ? $_POST['qty'] : "",
         "total" => $_POST['total'] ? $_POST['total'] : "",
     ];
@@ -33,9 +34,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ];
             $insert_billinfor = $db->insert('billinfor', $data_prd);
         }
+        
         unset($_SESSION['cart']);
         unset($_SESSION['qty']);
-        header('Location:./index.php');
+        header("Location:./modules/sendMail.php?billID=$insert");
     }
 }
 $param = [];

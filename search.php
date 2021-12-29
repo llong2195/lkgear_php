@@ -8,11 +8,11 @@
 if (isset($_GET) && isset($_GET['name'])) {
     $name = $_GET['name'];
     $page = 1;
-    $limit = 5;
+    $limit = 6;
     if (isset($_GET['page'])) {
         $page = $_GET['page'];
     }
-    $total_rows =  $db->countData("SELECT * FROM `prdchill`");
+    $total_rows =  $db->countData("SELECT * FROM `prdchill`  , `product` Where `prdchill`.`prdID` = `product`.`id` and `product`.`name` like '%$name%'");
     $skip = $limit * ($page - 1);
     $total_pages = ceil($total_rows / $limit);
 
@@ -66,7 +66,7 @@ if (isset($_GET) && isset($_GET['name'])) {
 
                             <div class="col-lg-4 col-md-4">
                                 <div class="filter__found">
-                                    <h6><span>16</span> Sản Phẩm Liên Quan</h6>
+                                    <h6><span><?php echo $total_rows ?></span> Sản Phẩm Liên Quan</h6>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-3">

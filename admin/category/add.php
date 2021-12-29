@@ -115,7 +115,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <div class="form-group">
                                         <label>Mô Tả</label>
                                         <textarea class="form-control" name="description" id="editor1" rows="10" cols="80">
-
                                         </textarea>
                                         <script>
                                             CKEDITOR.replace('editor1');

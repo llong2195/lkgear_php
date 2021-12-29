@@ -30,7 +30,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ];
     $update = $db->update('bill', $data, array('id' => $id));
     if ($update > 0) {
-        $_SESSION['error'] = "sửa thành công";
+        $sql_update_bill = "UPDATE `bill` 
+                            SET `qty`= (SELECT sum(billinfor.qty) FROM billinfor WHERE billinfor.billID = $id),
+                                `total` = (SELECT sum(billinfor.total) FROM billinfor WHERE billinfor.billID = $id)
+                            WHERE `id` = $id";
+        $update = $db->query($sql_update_bill);
+
+        $_SESSION['error'] = "Thêm thành công";
         header('Location: ./index.php');
     } else
         $_SESSION['error'] = "không thành công";
@@ -153,8 +159,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         </div>
                                     </div>
 
-                                    <button type="submit" class="btn btn-dark">Tạo Bill</button>
+                                    <button type="submit" class="btn btn-dark">Sửa Thông Tin Hóa Đơn</button>
                                     <a class="btn btn-info" href="./../billinfo/index.php?billID=<?php echo $bill['id'] ?>">Chi Tiết Hóa ĐƠn</a>
+                                    <a class="btn btn-info" href="./../bill/sendMail.php?billID=<?php echo $bill['id'] ?>">Gửi Mail</a>
                                 </form>
                             </div>
                         </div>

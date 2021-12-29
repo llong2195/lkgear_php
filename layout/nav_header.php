@@ -53,7 +53,6 @@
                     <ul>
                         <li class="active"><a href="./index.php">Home</a></li>
 
-                        <li><a href="./buildcase.php">Build Cấu Hình</a></li>
                         <li><a href="./tuyendung.php">Tuyển Dụng</a></li>
                         <li><a href="./contact.php">Liên Hệ</a></li>
                     </ul>
