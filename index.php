@@ -23,7 +23,7 @@
     $slider = $db->fetchOne($sql1);
     $sql2 = "SELECT * FROM `fe` WHERE slug like '%ad%' and active = 1 limit 2";
     $ad = $db->fetchAll($sql2);
-    $sql3 = "SELECT `product`.*, `category`.`slug` AS 'categorySlug', `prdchill`.`priceSale`, `prdchill`.`id` as `prdchillID` FROM `product`, `category`, `prdchill` WHERE `product`.`categoryID` = `category`.`id` and `prdchill`.prdID = `product`.`id`;";
+    $sql3 = "SELECT `product`.*, `category`.`slug` AS 'categorySlug', `prdchill`.`priceSale`, `prdchill`.`id` as `prdchillID` FROM `product`, `category`, `prdchill` WHERE `product`.`categoryID` = `category`.`id` and `prdchill`.prdID = `product`.`id` LIMIT 30";
     $product = $db->fetchAll($sql3);
     ?>
 
@@ -164,126 +164,76 @@
     <!-- Latest Product Section Begin -->
     <section class="latest-product spad">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-4 col-md-6">
+            <div class="row justify-content-center">
+                <div class="col-lg-5 col-md-5">
                     <div class="latest-product__text">
                         <h4>Laptop</h4>
                         <div class="latest-product__slider owl-carousel">
-
-                            <?php $count_item = 0;
-                            $count = 0; ?>
+                            
+                            <?php $count = 0; ?>
                             <?php foreach ($product as $index => $item) : ?>
-                                <?php if ($count_item == 0) : ?>
-                                    <div class="latest-prdouct__slider__item">
+                                
+                                <?php if ($item['categorySlug'] == 'laptop') : ?>
+                                    <?php if($count == 0): ?>
+                                        <div class="latest-prdouct__slider__item">
                                     <?php endif ?>
-                                    <?php if ($item['categorySlug'] == 'laptop') : ?>
-                                        <a href="./product.php?slug=<?php echo $item['slug'] . '&prdchill=' . $item['prdchillID'] ?>" class="latest-product__item">
-                                            <div class="latest-product__item__pic">
-                                                <img src="<?php echo $base_url . $item['avatarImg1'] ?>" alt="">
-                                            </div>
-                                            <div class="latest-product__item__text">
-                                                <h6><?php echo $item['name'] ?></h6>
-                                                <span><?php echo number_format($item['priceSale']) ?> VND</span>
-                                            </div>
-                                        </a>
-                                        <?php $count_item++;
-                                        $count++; ?>
-                                        <?php
-
-                                        if ($count_item == 3) {
-                                            $count_item = 0;
-                                            print('</div>');
-                                        }
-                                        if ($count == 9) break;
-                                        ?>
+                                    <a href="./product.php?slug=<?php echo $item['slug'] . '&prdchill=' . $item['prdchillID'] ?>" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img src="<?php echo $base_url . $item['avatarImg1'] ?>" alt="">
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6><?php echo $item['name'] ?></h6>
+                                            <span><?php echo number_format($item['priceSale']) ?> VND</span>
+                                        </div>
+                                    </a>
+                                    <?php $count++;?>
+                                    <?php if($count >= 3) :?>
+                                        <?php  $count = 0 ?>
+                                        </div>
                                     <?php endif ?>
-                                <?php endforeach ?>
+                                    
+                                <?php endif ?>
+                            <?php endforeach ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                                    </div>
+                <!-- 2 -->
+                <div class="col-lg-5 col-md-5">
+                    <div class="latest-product__text">
+                        <h4>VGA</h4>
+                        <div class="latest-product__slider owl-carousel">
+                            
+                            <?php $count = 0; ?>
+                            <?php foreach ($product as $index => $item) : ?>
+                                
+                                <?php if ($item['categorySlug'] == 'vga') : ?>
+                                    <?php if($count == 0): ?>
+                                        <div class="latest-prdouct__slider__item">
+                                    <?php endif ?>
+                                    <a href="./product.php?slug=<?php echo $item['slug'] . '&prdchill=' . $item['prdchillID'] ?>" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img src="<?php echo $base_url . $item['avatarImg1'] ?>" alt="">
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6><?php echo $item['name'] ?></h6>
+                                            <span><?php echo number_format($item['priceSale']) ?> VND</span>
+                                        </div>
+                                    </a>
+                                    <?php $count++;?>
+                                    <?php if($count >= 3) :?>
+                                        <?php  $count = 0 ?>
+                                        </div>
+                                    <?php endif ?>
+                                    
+                                <?php endif ?>
+                            <?php endforeach ?>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="latest-product__text">
-                    <h4>Sản Phẩm Mới</h4>
-                    <div class="latest-product__slider owl-carousel">
-
-                        <?php $count_item = 0;
-                        $count = 0; ?>
-                        <?php foreach ($product as $index => $item) : ?>
-                            <?php if ($count_item == 0) : ?>
-                                <div class="latest-prdouct__slider__item">
-                                <?php endif ?>
-
-                                <a href="./product.php?slug=<?php echo $item['slug'] . '&prdchill=' . $item['prdchillID'] ?>" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="<?php echo $base_url . $item['avatarImg1'] ?>" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6><?php echo $item['name'] ?></h6>
-                                        <span><?php echo number_format($item['priceSale']) ?> VND</span>
-                                    </div>
-                                </a>
-
-                                <?php $count_item++;
-                                $count++; ?>
-                                <?php
-
-                                if ($count_item == 3) {
-                                    $count_item = 0;
-                                    print('</div>');
-                                }
-                                if ($count == 9) break;
-                                ?>
-                            <?php endforeach ?>
-
-                                </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="latest-product__text">
-                    <h4>Sản Phẩm Nổi Bật</h4>
-                    <div class="latest-product__slider owl-carousel">
-
-                        <?php $count_item = 0;
-                        $count = 0; ?>
-                        <?php foreach ($product as $index => $item) : ?>
-                            <?php if ($count_item == 0) : ?>
-                                <div class="latest-prdouct__slider__item">
-                                <?php endif ?>
-
-                                <a href="./product.php?slug=<?php echo $item['slug'] . '&prdchill=' . $item['prdchillID'] ?>" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="<?php echo $base_url . $item['avatarImg1'] ?>" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6><?php echo $item['name'] ?></h6>
-                                        <span><?php echo number_format($item['priceSale']) ?> VND</span>
-                                    </div>
-                                </a>
-
-                                <?php $count_item++;
-                                $count++; ?>
-                                <?php
-
-                                if ($count_item == 3) {
-                                    $count_item = 0;
-                                    print('</div>');
-                                }
-                                if ($count == 9) break;
-                                ?>
-                            <?php endforeach ?>
-
-                                </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>
         </div>
     </section>
     <!-- Latest Product Section End -->

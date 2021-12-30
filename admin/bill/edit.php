@@ -163,6 +163,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <button type="submit" class="btn btn-dark">Sửa Thông Tin Hóa Đơn</button>
                                     <a class="btn btn-info" href="./../billinfo/index.php?billID=<?php echo $bill['id'] ?>">Chi Tiết Hóa ĐƠn</a>
                                     <a class="btn btn-info" href="./../bill/print_bill.php?billID=<?php echo $bill['id'] ?>">In Hoá Đơn</a>
+                                    <a class="btn btn-info" href="./../bill/export_excel.php?billID=<?php echo $bill['id'] ?>">Excel</a>
                                     <a class="btn btn-info" href="./../bill/sendMail.php?billID=<?php echo $bill['id'] ?>">Gửi Mail</a>
                                 </form>
                             </div>
