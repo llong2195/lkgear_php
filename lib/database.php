@@ -5,6 +5,7 @@
         function __construct()
         {
             $this->link = mysqli_connect("127.0.0.1","root","","lkgear") or die ();
+            // $this->link = mysqli_connect("localhost","lkgearxy_db","6NY5jFo79Ge0","lkgearxy_db") or die ();
             mysqli_set_charset($this->link,"utf8");
         }
 

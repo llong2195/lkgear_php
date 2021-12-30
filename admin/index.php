@@ -24,12 +24,36 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
     //2
 
+    $state = 0;
+    $sql_char1;
+    if(isset($_GET['i'])){
+        $state = $_GET['i'];
+    }
+    if($state == 0){
+        $sql_char1 = "SELECT SUM(total) as `total`,DAY(date) as 'time'  FROM `bill` WHERE MONTH(`date`) = MONTH(NOW()) GROUP BY DAY(date) ";
+    }else{
+        $sql_char1 = "SELECT SUM(total) as `total`,MONTH(date) as 'time'  FROM `bill` GROUP BY MONTH(date)";
+    }
+    $char1 = $db->fetchAll($sql_char1);
+    $lableChar1 = [];
+    $dataChar1 = [];
+    foreach ($char1 as $item) {
+        $lableChar1[] = $item['time'];
+        $dataChar1[] = $item['total'];
+    }
     //3
+    $sql_prdTop = "SELECT `product`.`name` as 'name1', `prdchill`.`name` as 'name2', SUM(`billinfor`.`qty`) as 'qty' FROM `bill`, `billinfor`, `product`, `prdchill` WHERE `bill`.`id` = `billinfor`.`billID` and `billinfor`.`prdChillID` = `prdchill`.`id` AND  `product`.`id` = `prdchill`.`prdID`\n"
+
+    . "and MONTH(date) = 12\n"
+
+    . "GROUP BY `prdchill`.`id`  \n"
+    . "ORDER BY `qty` DESC LIMIT 5;";
+    $prdTop = $db->fetchAll($sql_prdTop);
+    //4 account
     $sql_acc = "SELECT * FROM `account` LIMIT 4";
     $account = $db->fetchAll($sql_acc);
-    //4
+    
 
-    //5
 }
 
 
@@ -137,11 +161,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                     <div class="card-body pb-0 d-flex justify-content-between">
                                         <div>
                                             <h4 class="mb-1">Doanh Thu Theo Tháng</h4>
+                                            <h3 class="m-0"><?php echo number_format($DoanhThu['count']) ?> VND</h3>
                                             <p>Tính theo doanh thu cao nhất</p>
-                                            <h3 class="m-0">@ViewBag.Max</h3>
                                         </div>
                                         <div>
-                                            
+                                            <ul>
+                                                <li class="d-inline-block mr-3"><a class="text-dark" href="./index.php?i=0">Ngày</a></li>
+                                                <li class="d-inline-block mr-3"><a class="text-dark" href="./index.php?i=1">Tháng</a></li>
+                                            </ul>
                                         </div>
                                     </div>
                                     <div class="chart-wrapper">
@@ -165,168 +192,29 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
 
                 <div class="row">
-
-                    <!--  -->
-                    <div class="col-lg-12 col-md-12">
-
-                        <div class="card">
-                            <div class="chart-wrapper mb-4">
-                                <div class="px-4 pt-4 d-flex justify-content-between">
-                                    <div>
-                                        <h4>Sales Activities</h4>
-                                        <p>Last 6 Month</p>
-                                    </div>
-                                    <div>
-                                        <span><i class="fa fa-caret-up text-success"></i></span>
-                                        <h4 class="d-inline-block text-success">720</h4>
-                                        <p class=" text-danger">+120.5(5.0%)</p>
-                                    </div>
-                                </div>
-                                <div>
-                                    <canvas id="chart_widget_3"></canvas>
-                                </div>
-                            </div>
-                            <div class="card-body border-top pt-4">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <ul>
-                                            <li>5% Negative Feedback</li>
-                                            <li>95% Positive Feedback</li>
-                                        </ul>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                </div>
-
-
-
-                <div class="row">
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
                                 <div class="active-member">
                                     <div class="table-responsive">
+                                        <h4>Top 5 Sản Phẩm Bán Chạy Trong Tháng</h4>
                                         <table class="table table-xs mb-0">
                                             <thead>
                                                 <tr>
-                                                    <th>Customers</th>
-                                                    <th>Product</th>
-                                                    <th>Country</th>
-                                                    <th>Status</th>
-                                                    <th>Payment Method</th>
-                                                    <th>Activity</th>
+                                                    <th>Tên SP</th>
+                                                    <th></th>
+                                                    <th>Số Lượng</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                <?php foreach($prdTop as $item) : ?>
                                                 <tr>
-                                                    <td><img src="./images/avatar/1.jpg" class=" rounded-circle mr-3" alt="">Sarah Smith</td>
-                                                    <td>iPhone X</td>
-                                                    <td>
-                                                        <span>United States</span>
-                                                    </td>
-                                                    <td>
-                                                        <div>
-                                                            <div class="progress" style="height: 6px">
-                                                                <div class="progress-bar bg-success" style="width: 50%"></div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td><i class="fa fa-circle-o text-success  mr-2"></i> Paid</td>
-                                                    <td>
-                                                        <span>Last Login</span>
-                                                        <span class="m-0 pl-3">10 sec ago</span>
-                                                    </td>
+                                                    <td><?php echo $item['name1'] ?></td>
+                                                    <td><?php echo $item['name2'] ?></td>
+                                                    <td><?php echo $item['qty'] ?></td>
+                                                    
                                                 </tr>
-                                                <tr>
-                                                    <td><img src="./images/avatar/2.jpg" class=" rounded-circle mr-3" alt="">Walter R.</td>
-                                                    <td>Pixel 2</td>
-                                                    <td><span>Canada</span></td>
-                                                    <td>
-                                                        <div>
-                                                            <div class="progress" style="height: 6px">
-                                                                <div class="progress-bar bg-success" style="width: 50%"></div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td><i class="fa fa-circle-o text-success  mr-2"></i> Paid</td>
-                                                    <td>
-                                                        <span>Last Login</span>
-                                                        <span class="m-0 pl-3">50 sec ago</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><img src="./images/avatar/3.jpg" class=" rounded-circle mr-3" alt="">Andrew D.</td>
-                                                    <td>OnePlus</td>
-                                                    <td><span>Germany</span></td>
-                                                    <td>
-                                                        <div>
-                                                            <div class="progress" style="height: 6px">
-                                                                <div class="progress-bar bg-warning" style="width: 50%"></div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td><i class="fa fa-circle-o text-warning  mr-2"></i> Pending</td>
-                                                    <td>
-                                                        <span>Last Login</span>
-                                                        <span class="m-0 pl-3">10 sec ago</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><img src="./images/avatar/6.jpg" class=" rounded-circle mr-3" alt=""> Megan S.</td>
-                                                    <td>Galaxy</td>
-                                                    <td><span>Japan</span></td>
-                                                    <td>
-                                                        <div>
-                                                            <div class="progress" style="height: 6px">
-                                                                <div class="progress-bar bg-success" style="width: 50%"></div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td><i class="fa fa-circle-o text-success  mr-2"></i> Paid</td>
-                                                    <td>
-                                                        <span>Last Login</span>
-                                                        <span class="m-0 pl-3">10 sec ago</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><img src="./images/avatar/4.jpg" class=" rounded-circle mr-3" alt=""> Doris R.</td>
-                                                    <td>Moto Z2</td>
-                                                    <td><span>England</span></td>
-                                                    <td>
-                                                        <div>
-                                                            <div class="progress" style="height: 6px">
-                                                                <div class="progress-bar bg-success" style="width: 50%"></div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td><i class="fa fa-circle-o text-success  mr-2"></i> Paid</td>
-                                                    <td>
-                                                        <span>Last Login</span>
-                                                        <span class="m-0 pl-3">10 sec ago</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><img src="./images/avatar/5.jpg" class=" rounded-circle mr-3" alt="">Elizabeth W.</td>
-                                                    <td>Notebook Asus</td>
-                                                    <td><span>China</span></td>
-                                                    <td>
-                                                        <div>
-                                                            <div class="progress" style="height: 6px">
-                                                                <div class="progress-bar bg-warning" style="width: 50%"></div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td><i class="fa fa-circle-o text-warning  mr-2"></i> Pending</td>
-                                                    <td>
-                                                        <span>Last Login</span>
-                                                        <span class="m-0 pl-3">10 sec ago</span>
-                                                    </td>
-                                                </tr>
+                                                <?php endforeach ?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -498,7 +386,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
     })(jQuery);
 
-
+    let lable = <?php echo json_encode($lableChar1) ?>;
+    let data = <?php echo json_encode($dataChar1) ?>;
 
     (function($) {
         "use strict"
@@ -508,12 +397,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         new Chart(ctx, {
             type: 'line',
             data: {
-                labels: ["2010", "2011", "2012", "2013", "2014", "2015", "2016"],
+                labels: lable,
                 type: 'line',
                 defaultFontFamily: 'Montserrat',
                 datasets: [{
-                    data: [0, 15, 57, 12, 85, 10, 50],
-                    label: "iPhone X",
+                    data: data,
+                    label: "Doanh Thu",
                     backgroundColor: '#847DFA',
                     borderColor: '#847DFA',
                     borderWidth: 0.5,
@@ -521,16 +410,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     pointRadius: 5,
                     pointBorderColor: 'transparent',
                     pointBackgroundColor: '#847DFA',
-                }, {
-                    label: "Pixel 2",
-                    data: [0, 30, 5, 53, 15, 55, 0],
-                    backgroundColor: '#F196B0',
-                    borderColor: '#F196B0',
-                    borderWidth: 0.5,
-                    pointStyle: 'circle',
-                    pointRadius: 5,
-                    pointBorderColor: 'transparent',
-                    pointBackgroundColor: '#F196B0',
                 }]
             },
             options: {
@@ -542,101 +421,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     titleFontColor: '#000',
                     bodyFontColor: '#000',
                     backgroundColor: '#fff',
-                    titleFontFamily: 'Montserrat',
-                    bodyFontFamily: 'Montserrat',
-                    cornerRadius: 3,
-                    intersect: false,
-                },
-                legend: {
-                    display: false,
-                    position: 'top',
-                    labels: {
-                        usePointStyle: true,
-                        fontFamily: 'Montserrat',
-                    },
-
-
-                },
-                scales: {
-                    xAxes: [{
-                        display: false,
-                        gridLines: {
-                            display: false,
-                            drawBorder: false
-                        },
-                        scaleLabel: {
-                            display: false,
-                            labelString: 'Month'
-                        }
-                    }],
-                    yAxes: [{
-                        display: false,
-                        gridLines: {
-                            display: false,
-                            drawBorder: false
-                        },
-                        scaleLabel: {
-                            display: true,
-                            labelString: 'Value'
-                        }
-                    }]
-                },
-                title: {
-                    display: false,
-                }
-            }
-        });
-
-
-
-
-
-    })(jQuery);
-
-    (function($) {
-        "use strict"
-
-        let ctx = document.getElementById("chart_widget_3");
-        ctx.height = 130;
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-                type: 'line',
-                defaultFontFamily: 'Montserrat',
-                datasets: [{
-                        data: [0, 15, 57, 12, 85, 10],
-                        label: "iPhone X",
-                        backgroundColor: 'transparent',
-                        borderColor: '#847DFA',
-                        borderWidth: 2,
-                        pointStyle: 'circle',
-                        pointRadius: 5,
-                        pointBorderColor: '#847DFA',
-                        pointBackgroundColor: '#fff',
-                    },
-                    {
-                        data: [0, 2, 50, 12, 11, 10],
-                        label: "VCL X",
-                        backgroundColor: 'transparent',
-                        borderColor: '#F196B0',
-                        borderWidth: 2,
-                        pointStyle: 'circle',
-                        pointRadius: 5,
-                        pointBorderColor: '#F196B0',
-                        pointBackgroundColor: '#fff',
-                    }
-                ]
-            },
-            options: {
-                responsive: !0,
-                maintainAspectRatio: true,
-                tooltips: {
-                    mode: 'index',
-                    titleFontSize: 12,
-                    titleFontColor: '#fff',
-                    bodyFontColor: '#fff',
-                    backgroundColor: '#000',
                     titleFontFamily: 'Montserrat',
                     bodyFontFamily: 'Montserrat',
                     cornerRadius: 3,

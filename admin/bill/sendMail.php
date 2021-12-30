@@ -123,4 +123,5 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     
 }
 echo "<script>window.location.href = '/lkgear/admin/bill/index.php'</script>";
+// echo "<script>window.location.href = '/admin/bill/index.php'</script>";
 ?>
